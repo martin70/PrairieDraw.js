@@ -29,6 +29,7 @@ function PrairieDraw(canvas, drawFcn) {
         /** @private */ this._propStack = [];
 
         /** @private */ this._options = {};
+        /** @private */ this._optionStack = [];
 
         if (drawFcn) {
             this.draw = drawFcn.bind(this);
@@ -218,29 +219,6 @@ PrairieDraw.prototype.getProp = function(name) {
     return this._props[name];
 }
 
-/** Save the graphics state.
-*/
-PrairieDraw.prototype.save = function() {
-    this._ctx.save();
-    var oldProps = {};
-    for (p in this._props) {
-        oldProps[p] = this._props[p];
-    }
-    this._propStack.push(oldProps);
-    this._transStack.push(this._trans.dup());
-}
-
-/** Restore the graphics state.
-*/
-PrairieDraw.prototype.restore = function() {
-    this._ctx.restore();
-    if ((this._propStack.length == 0) || (this._transStack.length == 0)) {
-        throw new Error("PrairieDraw: tried to restore() without corresponding save()");
-    }
-    this._props = this._propStack.pop();
-    this._trans = this._transStack.pop();
-}
-
 /*****************************************************************************/
 
 /** Add an external option for this drawing.
@@ -289,6 +267,45 @@ PrairieDraw.prototype.toggleOption = function(name) {
     }
     this._options[name] = !this._options[name];
     this.redraw();
+}
+
+/*****************************************************************************/
+
+/** Save the graphics state (properties, options, and transformations).
+
+    @see restore().
+*/
+PrairieDraw.prototype.save = function() {
+    this._ctx.save();
+    var oldProps = {};
+    for (p in this._props) {
+        oldProps[p] = this._props[p];
+    }
+    var oldOptions = {};
+    for (p in this._options) {
+        oldOptions[p] = this._options[p];
+    }
+    this._propStack.push(oldProps);
+    this._optionStack.push(oldOptions);
+    this._transStack.push(this._trans.dup());
+}
+
+/** Restore the graphics state (properties, options, and transformations).
+
+    @see save().
+*/
+PrairieDraw.prototype.restore = function() {
+    this._ctx.restore();
+    if (this._propStack.length == 0) {
+        throw new Error("PrairieDraw: tried to restore() without corresponding save()");
+    }
+    if ((this._propStack.length != this._optionStack.length)
+        || (this._propStack.length != this._transStack.length)) {
+        throw new Error("PrairieDraw: incompatible save stack lengths");
+    }
+    this._props = this._propStack.pop();
+    this._options = this._optionStack.pop();
+    this._trans = this._transStack.pop();
 }
 
 /*****************************************************************************/
