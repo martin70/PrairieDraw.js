@@ -883,9 +883,9 @@ PrairieDrawAnim.prototype._callback = function(t_ms) {
         this._startFrame = false;
         this._timeOffset = t_ms - this._drawTime;
     }
-    var simTime = t_ms - this._timeOffset;
-    this._drawTime = simTime;
-    this.draw(simTime / 1000);
+    var animTime = t_ms - this._timeOffset;
+    this._drawTime = animTime;
+    this.draw(animTime / 1000);
     if (this._running) {
         this._requestAnimationFrame.call(window, this._callback.bind(this));
     }
@@ -899,7 +899,7 @@ PrairieDrawAnim.prototype.redraw = function() {
     }
 }
 
-/** Reset the simulation time to zero.
+/** Reset the animation time to zero.
 */
 PrairieDrawAnim.prototype.resetTime = function() {
     this._drawTime = 0;
