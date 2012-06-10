@@ -11,30 +11,93 @@
 <p>Other sources of information are the <a href="">Reference
 Manual</a>, the <a href="userManual.html">User Manual</a>, and
 the <a href="http://sylvester.jcoglan.com/docs.html">Sylvester
-Docs</a> for vectors.
+Docs</a> for vectors and matrices.
 
-<h2>Overview</h2>
+<h2>Coding style</h2>
 
-<p>We use prototype inheritance for the objects.
+<p>We use standard
+JavaScript <a href="https://en.wikipedia.org/wiki/Prototype-based_programming">prototypal
+inheritance</a> for the objects.
 
-<h2>Private members</h2>
+<p>Instance variables and member functions starting with an underscore
+are understood to be private and for internal use only. Apart from
+this, we
+follow <a href="https://en.wikipedia.org/wiki/Naming_convention_%28programming%29#Java">Java
+naming conventions</a>.
 
-<p>Member variables and functions starting with an underscore are
-understood to be private and for internal use only. This follows the
-python convention of privacy by convention.
+<p>We use <a href="https://en.wikipedia.org/wiki/JSDoc">JSDoc</a> for
+inline documentation
+(particularly <a href="https://code.google.com/p/jsdoc-toolkit/">jsdoc-toolkit</a>).
+
+<h2><tt>draw()</tt> and <tt>redraw()</tt></h2>
+
+<p>The user-supplied anonymous function in the constructor call is
+bound to the member function <tt>draw()</tt>. This should not
+generally be called explicitly, however. Instead, <tt>redraw()</tt>
+should be called, which is overridden by the <tt>PrairieDrawAnim</tt>
+child.
 
 <h2>Coordinate systems</h2>
 
-<p>The private variable <tt>_scale</tt> is the scale factor from
-drawing coordinates to pixel coordinates.
+<p>There are two coordinate systems used: Dw is "drawing coordinates"
+and is used for positions and vectors, while Px is "pixel coordinates"
+and is used for line widths, arrow sizes, etc. The transformation from
+Dw to Px is stored in the <tt>_trans</tt> instance variable. This is
+an <a href="https://en.wikipedia.org/wiki/Affine_transformation">affine
+transformation matrix</a>
+(using <a href="https://en.wikipedia.org/wiki/Homogeneous_coordinates">homogeneous
+coordinates</a>). The transformation matrix is pushed/popped from a
+transformation stack by <tt>save()</tt>/<tt>restore()</tt>.
 
-<h2>Colors</h2>
+<p>To convert from Dw to Px coordinates we use <tt>pos2Px</tt> (for
+positions) and <tt>vec2Px</tt> (for vectors). The vector
+transformation only uses the linear part of the affine
+transformation. The inverse transforms are <tt>pos2Dw</tt>
+and <tt>vec2Dw</tt>.
 
-<h2>Properties</h2>
+<p>All PrairieDraw functions should leave the 2D Canvas coordinate
+system unmodified, so we should do a <tt>_ctx.save()</tt>
+and <tt>_ctx.restore()</tt> around any canvas coordinate
+transformations.
 
-<h2>Options</h2>
+<p>In the code, variables are suffixed with either <tt>Dw</tt>
+or <tt>Px</tt> to indicate which coordinate system they are in.
+
+<h2>Properties, colors, and options</h2>
+
+<p>Drawing properties are stored in the <tt>_props</tt> instance
+variable object and pushed/popped from a stack
+by <tt>save()</tt>/<tt>restore()</tt>. Properties include colors to
+indicate standard types of objects. Object drawing functions
+(like <tt>rod()</tt>, <tt>pivot()</tt>, etc.) should set all
+appropriate style and color properties from <tt>_props</tt> data and
+should clear them before exit.
+
+<p>Options stored in the <tt>_options</tt> instance variable object
+are for user-created options and are also push/popped
+by <tt>save()</tt>/<tt>restore()</tt>. Calling <tt>setOption()</tt>
+or <tt>setProp()</tt> triggers a <tt>redraw()</tt>.
 
 <h2>Animation</h2>
+
+<p>There are three times used for animation by
+the <tt>PrairieDrawAnim</tt> child class: wall-time in milliseconds,
+animation time in milliseconds, and animation time in seconds.
+
+<p>Animation is implemented using <tt>requestAnimationFrame()</tt>, which calls
+<tt>_callback()</tt> with the wall-time in milliseconds. We offset by
+the <tt>_timeOffset</tt> instance variable to obtain the current
+animation time in milliseconds. This allows for the animation to be
+paused and restarted without skipping. The <tt>_startFrame</tt>
+instance variable set to <tt>true</tt> when animation begins, which
+triggers the recalculation of <tt>_timeOffset</tt>.
+
+<p>The <tt>_drawTime</tt> instance variable stores the animation time
+in milliseconds of the last <tt>draw()</tt> call, for use
+by <tt>redraw()</tt> when the animation is not running.
+
+<p>The user-supplied <tt>draw(t)</tt> function is called with
+time <tt>t</tt> being the animation time in seconds.
 
 </body>
 </html>

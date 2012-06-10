@@ -20,7 +20,10 @@ canvas {
 the <a href="jsdoc-toolkit/out/jsdoc/index.html">Reference Manual</a>,
 the <a href="developerManual.html">Developer Manual</a>, and
 the <a href="http://sylvester.jcoglan.com/docs.html">Sylvester
-Docs</a> for vectors.
+Docs</a> for vectors. See
+the <a href="https://developer.mozilla.org/en/JavaScript">Mozilla
+Developer Network JavaScript documentation</a> for JavaScript guides
+and references.
 
 <h2>Quick-start</h2>
 
@@ -502,7 +505,7 @@ state <tt>i</tt> and <tt>i+1</tt> and <tt>holdTimes[i]</tt> is the
 holding time at state <tt>i</tt>.
 
 <p>The returned value <tt>state</tt> is an object with interpolated
-members the same as the state members, and <tt>state.t</tt> is the
+values the same as the state values, and <tt>state.t</tt> is the
 time within the current transition, <tt>state.alpha</tt> is the scaled
 transition proportion (between 0 and 1), and <tt>state.index</tt> is
 the current state hold index (if <tt>state.t == 0</tt>) or the
@@ -599,7 +602,7 @@ seqPD = new PrairieDrawAnim("seq", function(t) {
 this.numDiff(fcn, t)</tt> function. Here <tt>t</tt> is the time at
 which the derivative is desired, and <tt>fcn</tt> is a function that
 takes time <tt>t</tt> and returns an object <tt>dataNow</tt> with
-members (like <tt>dataNow.O</tt>, <tt>dataNow.P</tt>) that are numbers
+properties (like <tt>dataNow.O</tt>, <tt>dataNow.P</tt>) that are numbers
 or vectors at time <tt>t</tt>. Then <tt>data.P</tt> will access the
 current value of <tt>P</tt>, while <tt>data.diff.P</tt>
 and <tt>data.ddiff.P</tt> will be the first and second derivatives.
