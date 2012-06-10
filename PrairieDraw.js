@@ -94,28 +94,6 @@ PrairieDraw.prototype._initProps = function() {
 
 /*****************************************************************************/
 
-/** @private Store the appropriate version of requestAnimationFrame.
-
-    Use this like:
-    prairieDraw.requestAnimationFrame.call(window, this.callback.bind(this));
-
-    We can't do prairieDraw.requestAnimationFrame(callback), because
-    that would run requestAnimationFrame in the context of prairieDraw
-    ("this" would be prairieDraw), and requestAnimationFrame needs
-    "this" to be "window".
-
-    We need to pass this.callback.bind(this) as the callback function
-    rather than just this.callback as otherwise the callback functions
-    is called from "window" context, and we want it to be called from
-    the context of our own object.
-*/
-PrairieDraw.prototype._requestAnimationFrame = window.requestAnimationFrame
-    || window.mozRequestAnimationFrame ||
-    window.webkitRequestAnimationFrame ||
-    window.msRequestAnimationFrame;
-
-/*****************************************************************************/
-
 /** Scale the coordinate system.
 
     @param {Vector} factor Scale factors.
@@ -846,6 +824,26 @@ function PrairieDrawAnim(canvas, drawFcn) {
     this._canvas.animator = this;
 }
 PrairieDrawAnim.prototype = new PrairieDraw;
+
+/** @private Store the appropriate version of requestAnimationFrame.
+
+    Use this like:
+    prairieDraw.requestAnimationFrame.call(window, this.callback.bind(this));
+
+    We can't do prairieDraw.requestAnimationFrame(callback), because
+    that would run requestAnimationFrame in the context of prairieDraw
+    ("this" would be prairieDraw), and requestAnimationFrame needs
+    "this" to be "window".
+
+    We need to pass this.callback.bind(this) as the callback function
+    rather than just this.callback as otherwise the callback functions
+    is called from "window" context, and we want it to be called from
+    the context of our own object.
+*/
+PrairieDrawAnim.prototype._requestAnimationFrame = window.requestAnimationFrame
+    || window.mozRequestAnimationFrame
+    || window.webkitRequestAnimationFrame
+    || window.msRequestAnimationFrame;
 
 /** Prototype function to draw on the canvas, should be implemented by children.
 
