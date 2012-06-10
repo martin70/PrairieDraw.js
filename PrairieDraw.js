@@ -29,7 +29,6 @@ function PrairieDraw(canvas, drawFcn) {
         /** @private */ this._propStack = [];
 
         /** @private */ this._options = {};
-        /** @private */ this._optionStack = [];
 
         if (drawFcn) {
             this.draw = drawFcn.bind(this);
@@ -259,12 +258,7 @@ PrairieDraw.prototype.save = function() {
     for (p in this._props) {
         oldProps[p] = this._props[p];
     }
-    var oldOptions = {};
-    for (p in this._options) {
-        oldOptions[p] = this._options[p];
-    }
     this._propStack.push(oldProps);
-    this._optionStack.push(oldOptions);
     this._transStack.push(this._trans.dup());
 }
 
@@ -277,12 +271,10 @@ PrairieDraw.prototype.restore = function() {
     if (this._propStack.length == 0) {
         throw new Error("PrairieDraw: tried to restore() without corresponding save()");
     }
-    if ((this._propStack.length != this._optionStack.length)
-        || (this._propStack.length != this._transStack.length)) {
+    if (this._propStack.length != this._transStack.length) {
         throw new Error("PrairieDraw: incompatible save stack lengths");
     }
     this._props = this._propStack.pop();
-    this._options = this._optionStack.pop();
     this._trans = this._transStack.pop();
 }
 

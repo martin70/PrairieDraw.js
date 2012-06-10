@@ -74,9 +74,12 @@ appropriate style and color properties from <tt>_props</tt> data and
 should clear them before exit.
 
 <p>Options stored in the <tt>_options</tt> instance variable object
-are for user-created options and are also push/popped
-by <tt>save()</tt>/<tt>restore()</tt>. Calling <tt>setOption()</tt>
-or <tt>setProp()</tt> triggers a <tt>redraw()</tt>.
+are for user-created options. These are <em>not</em> push/popped
+by <tt>save()</tt>/<tt>restore()</tt>, as they need to persist across
+multiple <tt>draw()</tt> invocations.
+
+<p>Calling <tt>setOption()</tt> or <tt>setProp()</tt> triggers
+a <tt>redraw()</tt>.
 
 <h2>Animation</h2>
 
