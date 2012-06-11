@@ -1,5 +1,0 @@
-side view of wheel, wheel is turning
-want to brake --- apply moment in opposite direction to omega (via squeezing with brake)
-force from ground counteracts this moment
-tries to speed the wheel up again and/or slow the car down
-to satisfy the omega = v / r constraint for no-slip
