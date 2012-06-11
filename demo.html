@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>PrairieDraw.js Demo</title>
+<script src="sylvester.js"></script>
+<script src="PrairieDraw.js"></script>
+<style>
+canvas {
+    border: 1px solid black;
+}
+</style>
+</head>
+
+<body>
+<p>Look at my super-cool demo, guys.  Guys, srsly.</p>
+<canvas id="test" width="200" height="200"></canvas>
+<script type="application/javascript">
+new PrairieDraw("test", function() {
+	this.setUnits(2, 2);
+	this.line($V([0, 0]), $V([1, 1]));
+	});
+</script>
+
+</body>
