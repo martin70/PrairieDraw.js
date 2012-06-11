@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <script src="https://d3eoax9i5htok0.cloudfront.net/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="application/javascript">
+    requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+    window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;  
+
+    function showDiv(divId) {
+    var div = document.getElementById(divId);
+    div.style.display = "inline";
+    }
+
+    function hideDiv(divId) {
+    var div = document.getElementById(divId);
+    div.style.display = "none";
+    }
+
+    function showHideDiv(button, divId, showEval, hideEval) {
+    var div = document.getElementById(divId);
+    if (div.style.display == "inline") {
+    eval(hideEval);
+    div.style.display = "none";
+    button.childNodes[0].nodeValue = "Show";
+    } else {
+    eval(showEval);
+    div.style.display = "inline";
+    button.childNodes[0].nodeValue = "Hide";
+    }
+    }
+
+    function showHideVar(button, varName, redrawFunc) {
+    if (window[varName]) {
+    window[varName] = false;
+    button.childNodes[0].nodeValue = "Show";
+    } else {
+    window[varName] = true;
+    button.childNodes[0].nodeValue = "Hide";
+    }
+    window[redrawFunc]();
+    }
+  </script>
+  <style>
+    .exampleOuter {
+    border: 1px solid black;
+    padding: 0px 5px;
+    margin: 30px 0px;
+    }
+
+    div.exampleInner {
+    display: none;
+    }
+
+    canvas {
+    border: 1px solid black;
+    }
+
+    .canvasContainer {
+    width: 350px;
+    display: inline-block;
+    }
+
+    .figureCaption {
+    width: 400px;
+    display: inline-block;
+    }
+
+    .canvasExplanation {
+    font-size: 60%;
+    padding: 0px;
+    margin: 0px;
+    }
+
+    .firstPara {
+    margin-top: 0px;
+    }
+
+    p.example {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    }
+
+    table.exampleInner {
+    margin-top: 20px;
+    }
+
+    .solution {
+    display: none;
+    }
+  </style>
+<script src="./drawUtils.js"></script>
+</head>
+
+<div id="pendulumOuter">
+<canvas id="pendulum" width="300" height="250"></canvas>
+<script src="./pendulum.js"></script>
+<p class="canvasExplanation">Click image to start and stop animation.</p>
+</div>
+
+<!--
+<div id="angMomPointsCircleOuter" class="example">
+<p><canvas id="angMomPointsCircle" width="300" height="300"></canvas></p>
+<script src="./angMomPointsCircle.js"></script>
+<p>Click image to start and stop animation.</p>
+</div>
+!-->
+
+<div id="angMomPointsSquareOuter" class="exampleOuter">
+<p class="example"><b>Example:</b> Angular momentum of a particle moving in a square pattern:
+<button onclick="showHideDiv(this, 'angMomPointsSquareInner', 'hideDiv(\'angMomPointsSquareSolution\'); angMomPointsSquareShowAngMoms = false; startAngMomPointsSquare();', 'hideDiv(\'angMomPointsSquareSolution\'); stopAngMomPointsSquare(); angMomPointsSquareShowAngMoms = false;');">Show</button>
+</p>
+<div id="angMomPointsSquareInner" class="exampleInner">
+<table class="exampleInner">
+<tr valign="top">
+<td>
+<canvas id="angMomPointsSquare" width="300" height="300"></canvas>
+<script src="./angMomPointsSquare.js"></script>
+<p class="canvasExplanation">Click image to start and stop animation.</p>
+</td>
+<td>
+<p class="firstPara">What is the angular momentum of the moving mass about the different points? Will \(H_a\) be bigger or smaller than \(H_e\)? About which point will the angular momentum be largest? Which will be smallest?</p>
+<p>Solution: <button onclick="showHideDiv(this, 'angMomPointsSquareSolution', 'angMomPointsSquareShowAngMoms = true; redrawAngMomPointsSquare();', 'angMomPointsSquareShowAngMoms = false; redrawAngMomPointsSquare();');">Show</button></p>
+<div id="angMomPointsSquareSolution" class="solution">
+The angular momentum is highest about points furthest away from the moving mass.
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+
+</body>
+</html>

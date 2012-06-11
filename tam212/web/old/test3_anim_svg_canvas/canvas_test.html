@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <script type="application/javascript">
+    requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+    window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;  
+
+    function setup() {
+    requestAnimationFrame(draw);
+    }
+
+    function draw(t_ms) {
+    var t = t_ms / 1000.0;
+
+    var ctx = document.getElementById('fig').getContext('2d');
+    ctx.globalCompositeOperation = 'destination-over';  
+    ctx.clearRect(0,0,300,300);
+    var x = 150 + 100 * Math.sin(t);
+    var y = 100;
+    ctx.fillStyle = "rgb(0,0,0)";
+    ctx.fillRect(x, y, 40, 40);
+
+    requestAnimationFrame(draw);
+    }
+  </script>
+  <style type="text/css">  
+    canvas { border: 1px solid black; }
+    object { border: 1px solid black; }
+  </style>
+<script src="./drawUtils.js"></script>
+</head>
+<body onload="setup();">
+
+<canvas id="fig" width="300" height="200"></canvas>
+
+</body>
+</html>

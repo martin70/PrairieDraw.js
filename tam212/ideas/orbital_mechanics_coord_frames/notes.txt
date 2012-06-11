@@ -1,0 +1,9 @@
+Find local Az/El for ISS.
+Obtain ISS xyz from JPL HORIZONS
+Obtain ISS omega from HORIZONS
+compute new xyz at any time
+obtain lat/long for Urbana at epoch
+compute lat/long for Urbana at any time
+compute xyz position vector for ISS from Urbana
+convert xyz pos vec into spherical SEZ
+convert pos SEZ into Az/El/rho

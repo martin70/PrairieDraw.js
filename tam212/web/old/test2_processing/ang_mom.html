@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <link rel="stylesheet" href="./style.css" type="text/css" />
+  <script src="https://d3eoax9i5htok0.cloudfront.net/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script src="./processing-1.3.6.min.js"></script>
+  <script type="application/javascript">
+    function sketchState(sketchId, on) {
+    var processingInstance;
+    processingInstance = Processing.getInstanceById(sketchId);
+    if (on) {
+    processingInstance.loop();
+    } else {
+    processingInstance.noLoop();
+    }
+    }
+
+    function toggleSketchState(button, sketchId) {
+    if (button.childNodes[0].nodeValue == "Start") {
+    sketchState(sketchId, true);
+    button.childNodes[0].nodeValue = "Stop";
+    } else {
+    sketchState(sketchId, false);
+    button.childNodes[0].nodeValue = "Start";
+    }
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+
+    <div class="header">
+      <h1>TAM 212: Dynamics</h1>
+    </div>
+
+    <div class="navbar">
+      <ul>
+        <li>Home</li>
+        <li>Contents</li>
+        <li>Help</li>
+      </ul>
+    </div>
+
+    <div class="content">
+
+      <div class="leftcol">
+        <div class="section level2" id="prerequisite-topics">
+          <h2>Prerequisite Topics</h2>
+          <ul>
+            <li><p><a href="point_mass_kinematics">Point mass kinematics</a></p></li>
+            <li><p><a href="rigid_body_kinematics_3d">Rigid body kinematics in 3D</a></p></li>
+            <li><p><a href="angular_momentum_2d">Angular momentum in 2D</a></p></li>
+          </ul>
+        </div>
+        <div class="section level2" id="follow-on-topics">
+          <h2>Follow-on Topics</h2>
+          <ul>
+            <li><p><a href="newtons_eqn_moment">Newton’s moment equation</a></p></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="midcol">
+        <div class="section level1" id="angular-momentum-in-3d">
+          <h1>Angular Momentum in 3D</h1>
+          <p>The angular momentum of a body describes its tendency to continue rotational motion, analogous to the way that <a href="linear_momentum">linear momentum</a> describes the tendency to continue translational motion. Angular momentum in 3D is a vector quantity \(\boldsymbol{H}\), while <a href="angular_momentum_2d">in 2D</a> it is a scalar \(H\). The total angular momentum of several bodies is the sum of their individual angular momenta. Angular momentum changes due to the action of <a href="moment">moments</a> on the body, as described by <a href="newtons_eqn_moment">Newton’s moment equation</a>.</p>
+          <p>The angular momentum of a body depends on the reference point. We write \(\boldsymbol{H}_C\) to indicate that this angular momentum is with respect to the point \(C\).</p>
+          <div class="section level2" id="definition-of-angular-momentum-in-3d">
+            <h2>Definition of angular momentum in 3D</h2>
+            <div class="section level3" id="point-masses.">
+              <h3>Point masses</h3>
+              <p>(<a href="angular_momentum_point_masses_video">Video explanation</a>)</p>
+              <p>The angular momentum of a <a href="point_mass">point mass</a> \(P\) about some <a href="origin">origin</a> \(O\) is</p>
+              <p>\[\label{eqn:ang_mom_3d_point_mass}
+                \boldsymbol{H}_O = \boldsymbol{r}_{OP} \times m \boldsymbol{v} = \boldsymbol{r}_{OP} \times \boldsymbol{p},\]</p>
+              <p>where \(\boldsymbol{r}_{OP}\) is the <a href="position_vector">position vector</a> of the point mass, \(m\) is the mass, \(\boldsymbol{v}\) is the <a href="velocity">velocity</a>, and \(\boldsymbol{p} = m \boldsymbol{v}\) is the <a href="linear_momentum">linear momentum</a>.</p>
+              <canvas id="pendulum" data-processing-sources="pendulum/pendulum.pde"></canvas>
+              <button onclick="toggleSketchState(this, 'pendulum');">Start</button>
+            </div>
+            <div class="section level3" id="rigid-bodies.">
+              <h3>Rigid bodies</h3>
+              <p>(<a href="angular_momentum_rigid_bodies_video">Video explanation</a>)</p>
+              <p>The angular momentum of a <a href="rigid_body">rigid body</a> about its center of mass \(C\) depends on its <a href="angular_velocity">angular velocity</a> \(\omega\) and <a href="moment_of_inertia_matrix">moment of inertia matrix</a> \(\boldsymbol{I}_C\), with</p>
+              <p>\[\label{eqn:ang_mom_3d_rigid_body}
+                \boldsymbol{H}_C = \boldsymbol{I}_C \boldsymbol{\omega}.\]</p>
+            </div>
+          </div>
+          <div class="section level2" id="properties-of-angular-momentum">
+            <h2>Properties of angular momentum</h2>
+            <div class="section level3" id="dependence-on-reference-point">
+              <h3>Dependence on reference point</h3>
+              <p>The angular momentum of a body depends on the reference point. We write \(\boldsymbol{H}_C\) to indicate that this angular momentum is with respect to the point \(C\).</p>
+              <p>Consider the example below, with a point (the black dot) moving in uniform circular motion. The red arrows show the angular momentum about nine different reference points. We see that \(H_e\) has a constant value in the counter-clockwise direction, while the other angular momenta vary over time and even reverse direction. This is despite the fact that the point is always moving with a constant angular velocity about the center \(e\). Note that the largest angular momentum is about the furthest-away point.</p>
+              <canvas id="ang_mom_points_circ" data-processing-sources="ang_mom_points_circ/ang_mom_points_circ.pde"></canvas>
+              <button onclick="toggleSketchState(this, 'ang_mom_points_circ');">Start</button>
+              <p>Another example is shown below, this time with the point moving in a square with variable speed. Again we note that the angular momentum is larger about far-away points. Also note that many of these angular momenta are equal, as the projection of the linear momentum onto the perpendicular direction gives the same value.</p>
+              <canvas id="ang_mom_points" data-processing-sources="ang_mom_points/ang_mom_points.pde"></canvas>
+              <button onclick="toggleSketchState(this, 'ang_mom_points');">Start</button>
+            </div>
+            <div class="section level3" id="adding-angular-momenta.">
+              <h3>Adding angular momenta</h3>
+              <p>(<a href="angular_momentum_adding_video">Video explanation</a>)</p>
+              <p>If we have two bodies, whether connected or not, then the total angular momentum is the sum</p>
+              <p>\[\label{eqn:ang_mom_addition}
+                \boldsymbol{H}_O^{\rm tot} = \boldsymbol{H}_O^1 + \boldsymbol{H}_O^2\]</p>
+              <p>of the angular momenta \(\boldsymbol{H}_O^1\) and \(\boldsymbol{H}_O^2\) of bodies 1 and 2.</p>
+              <p>Angular momenta can only be added together if they are both about the same reference point. It makes no sense to write \(\boldsymbol{H}_O^1 + \boldsymbol{H}_C^2\), for example.</p>
+            </div>
+            <div class="section level3" id="relationship-between-angular-momentum-in-2d-and-3d.">
+              <h3>Relationship between angular momentum in 2D and 3D</h3>
+              <p>(<a href="angular_momentum_2d_vs_3d_video">Video explanation</a>)</p>
+              <canvas id="pendulum_3d" data-processing-sources="pendulum_3d/pendulum_3d.pde"></canvas>
+              <button onclick="toggleSketchState(this, 'pendulum_3d');">Start</button>
+            </div>
+          </div>
+          <div class="section level2" id="calculating-angular-momentum">
+            <h2>Calculating angular momentum</h2>
+          </div>
+          <div class="section level2" id="how-to-use-angular-momentum-to-solve-problems">
+            <h2>Solving problems using angular momentum</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="rightcol">
+        <div class="section level2" id="see-also">
+          <h2>See also</h2>
+          <ul>
+            <li><p><a href="angular_momentum_2d">Angular momentum in 2D</a></p></li>
+            <li><p><a href="angular_momentum_rigid_body_derivation">Derivation of the rigid body angular momentum equation</a></p></li>
+            <li><p><a href="moment">Moment</a></p></li>
+            <li><p><a href="linear_momentum">Linear momentum</a></p></li>
+            <li><p><a href="newtons_eqn_moment">Newton’s moment equation</a></p></li>
+          </ul>
+        </div>
+        <div class="section level2" id="external-links">
+          <h2>External links</h2>
+          <ul>
+            <li><p>Wikipedia page: <a href="http://en.wikipedia.org/wiki/Angular_momentum">Angular momentum</a></p></li>
+          </ul>
+        </div>
+        <div class="section level2" id="example-problems">
+          <h2>Example problems</h2>
+          <ul>
+            <li><p><a href="hw5-2_q2">Homework 5.2, Question 2</a> (<a href="hw5-2_q2_soln">Solution</a>, <a href="hw5-2_q2_explain">Explanation</a>)</p></li>
+          </ul>
+        </div>
+        <div class="section level2" id="applications">
+          <h2>Applications</h2>
+          <ul>
+            <li><p><a href="transition_curves">Transition curves for highway design</a></p></li>
+            <li><p><a href="satellite_despin">Satellite despinning</a></p></li>
+          </ul>
+        </div>
+      </div>
+    
+    </div>
+  </div>
+</body>
+</html>

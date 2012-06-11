@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Test Page</title>
+<script src="./gl-matrix.js"></script>
+</head>
+<body>
+
+<script id="vert" type="x-shader/x-vertex">
+attribute vec3 aVertexPosition;
+uniform mat4 uMVMatrix;
+uniform mat4 uPMatrix;
+void main(void) {
+gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+}
+</script>
+
+<script id="frag" type="x-shader/x-fragment">
+precision mediump float;
+void main(void) {
+gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+}
+</script>
+
+<canvas id="test" style="border: 1px solid black;" width="400" height="400"></canvas>
+<script src="./driver.js"></script>
+
+</body>
+</html>

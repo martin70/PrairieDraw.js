@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta name="generator" content="pandoc" />
+<title>Angular Momentum in 2D</title>
+<link rel="stylesheet" href="./style.css" type="text/css" />
+<script src="https://d3eoax9i5htok0.cloudfront.net/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+<script src="./gl-matrix.js"></script>
+<script src="./prairieDraw.js"></script>
+<script src="./prairieDraw3D.js"></script>
+</head>
+<body>
+<div class="container">
+      
+<div class="header">
+<h1>TAM 212: Dynamics</h1>
+</div>
+
+<div class="navbar">
+<ul>
+<li>Home</li>
+<li>Contents</li>
+<li>Help</li>
+</ul>
+</div>
+
+<div class="content">
+
+<div class="leftcol">
+
+<h2>Prerequisite Topics</h2>
+<ul>
+<li><p><a href="point_mass_kinematics">Point mass kinematics</a></p></li>
+<li><p><a href="rigid_body_kinematics_3d">Rigid body kinematics in 3D</a></p></li>
+<li><p><a href="angular_momentum_2d">Angular momentum in 2D</a></p></li>
+</ul>
+
+<h2>Follow-on Topics</h2>
+<ul>
+<li><p><a href="newtons_eqn_moment">Newton’s moment equation</a></p></li>
+</ul>
+
+</div> <!-- leftcol -->
+
+<div class="midcol">
+
+<h1>Angular Momentum in 2D</h1>
+
+<p>The angular momentum of a body describes its tendency to continue rotational motion, analogous to the way that <a href="linear_momentum">linear momentum</a> describes the tendency to continue translational motion. Angular momentum in 3D is a vector quantity \(\boldsymbol{H}\), while <a href="angular_momentum_2d">in 2D</a> it is a scalar \(H\). The total angular momentum of several bodies is the sum of their individual angular momenta. Angular momentum changes due to the action of <a href="moment">moments</a> on the body, as described by <a href="newtons_eqn_moment">Newton’s moment equation</a>.</p>
+
+<p class="warning"><strong>Note:</strong> The angular momentum of a body depends on the reference point. We write \(\boldsymbol{H}_C\) to indicate that this angular momentum is with respect to the point \(C\).</p>
+
+<h2>Definition of angular momentum in 2D</h2>
+
+<h3>Point masses</h3>
+
+<p>The angular momentum of a <a href="point_mass">point mass</a> \(P\) about some <a href="origin">origin</a> \(O\) is</p>
+
+<p>\[\boldsymbol{H}_O = \boldsymbol{r}_{OP} \times m \boldsymbol{v} = \boldsymbol{r}_{OP} \times \boldsymbol{p},\]</p>
+
+<p>where \(\boldsymbol{r}_{OP}\) is the <a href="position_vector">position vector</a> of the point mass, \(m\) is the mass, \(\boldsymbol{v}\) is the <a href="velocity">velocity</a>, and \(\boldsymbol{p} = m \boldsymbol{v}\) is the <a href="linear_momentum">linear momentum</a>.</p>
+
+<div id="pendulumOuter" class="example">
+<p class="example"><strong>Example:</strong> Angular momentum of a pendulum: <button class="example"></button></p>
+<div class="exampleInner">
+<div class="exampleCanvas">
+<canvas id="pendulumCanvas" width="300" height="300"></canvas>
+<script src="./test/pendulum.js"></script>
+<script type="application/javascript">pendulum = new Pendulum('pendulumCanvas');</script>
+<p class="canvasExplanation">Click image to start or stop animation.</p>
+</div>
+<p>A pendulum is shown with a constant downwards force due to gravity. The velocity vector is always orthogonal to the pendulum rod.</p>
+
+<p>When does the angular momentum about the pin joint have maximum and minimum magnitude? Is it ever zero?<button class="solution" data-solution="angMom"></button></p>
+<div class="solution" data-solution="angMom">
+<p>The angular momentum is maximum at the bottom position when the velocity is highest. This is because the angle between \(\boldsymbol{r}\) and \(\boldsymbol{v}\) is always \(90^\circ\) and the length of \(\boldsymbol{r}\) is constant. The angular momentum is zero when the velocity is zero, at the top of the swing.</p>
+</div>
+
+<p>What direction is the acceleration during the motion? Is it ever orthogonal to the velocity? Is it ever zero? <button class="solution" data-solution="acceleration"></button></p>
+<div class="solution" data-solution="acceleration">
+<p>The acceleration has a radial centripetal component and an angular component that is in the same direction as the velocity on the down-swing (when \(v\) is increasing), and in the opposite direction to the velocity on the up-swing (when \(v\) is decreasing).</p>
+</div>
+
+</div>
+<script type="application/javascript">new prairieDraw.ExampleController('pendulumOuter');</script>
+</div>
+
+<h3>Rigid bodies</h3>
+
+<p>The angular momentum of a <a href="rigid_body">rigid body</a> about its center of mass \(C\) depends on its <a href="angular_velocity">angular velocity</a> \(\omega\) and <a href="moment_of_inertia_matrix">moment of inertia matrix</a> \(\boldsymbol{I}_C\), with</p>
+
+<p>\[\label{eqn:ang_mom_3d_rigid_body} \boldsymbol{H}_C = \boldsymbol{I}_C \boldsymbol{\omega}.\]</p>
+
+<h2>Properties of angular momentum</h2>
+
+<h3>Dependence on reference point</h3>
+
+<p>The angular momentum of a body depends on the reference point. We write \(\boldsymbol{H}_C\) to indicate that this angular momentum is with respect to the point \(C\).</p>
+
+<div id="angMomPointsCircleOuter" class="example">
+<p class="example"><strong>Example:</strong> Angular momentum of a particle moving in a circle: <button class="example"></button></p>
+<div class="exampleInner">
+<div class="exampleCanvas">
+<canvas id="angMomPointsCircleCanvas" width="300" height="300"></canvas>
+<script src="./test/angMomPointsCircle.js"></script>
+<script type="application/javascript">new AngMomPointsCircle('angMomPointsCircleCanvas');</script>
+<p class="canvasExplanation">Click image to start or stop animation.</p>
+</div>
+<p>The moving mass travels in a circular pattern with constant speed.</p>
+
+<p>Is the angular momentum \(H_e\) (about point \(e\)) constant or variable? <button class="solution" data-solution="showE"></button></p>
+<div class="solution" data-solution="showE">
+<p>\(H_a\) is constant, because the position vector and velocity vectors are always orthogonal and always the same length.<p>
+</div>
+
+<p>Is the angular momentum \(H_d\) (about point \(d\)) constant or variable? Is \(H_d\) ever zero? <button class="solution" data-solution="showD"></button></p>
+<div class="solution" data-solution="showD">
+<p>\(H_d\) is varying, because the position vector changes length and also changes in angle to the velocity vector. Observe that \(H_d\) is sometimes positive and sometimes negative, and is zero when the particle is moving directly towards or away from \(d\).<p>
+</div>
+
+<p>Is \(H_a\) bigger or smaller than \(H_e\)? Does it depend on the particle's position? <button class="solution" data-solution="showAE"></button></p>
+<div class="solution" data-solution="showAE">
+<p>Sometimes \(H_a\) is much larger than \(H_e\), when the particle is far from \(a\) and the velocity is orthogonal to the position vector. But sometimes \(H_a\) is much smaller, such as when it is zero.<p>
+</div>
+
+<p>As the particle moves around the circle, about which point is the angular momentum largest? <button class="solution" data-solution="showAll"></button></p>
+<div class="solution" data-solution="showAll">
+<p>Because the speed is constant, the angular momentum is largest about the point which is furthest away in a direction that is most orthogonal to the velocity vector.<p>
+</div>
+
+</div>
+<script type="application/javascript">new prairieDraw.ExampleController('angMomPointsCircleOuter');</script>
+</div>
+
+<div id="angMomPointsSquareOuter" class="example">
+<p class="example"><strong>Example:</strong> Angular momentum of a particle moving in a square: <button class="example"></button></p>
+<div class="exampleInner">
+<div class="exampleCanvas">
+<canvas id="angMomPointsSquareCanvas" width="300" height="300"></canvas>
+<script src="./test/angMomPointsSquare.js"></script>
+<script type="application/javascript">new AngMomPointsSquare('angMomPointsSquareCanvas');</script>
+<p class="canvasExplanation">Click image to start or stop animation.</p>
+</div>
+<p>The moving mass travels in a square pattern with variable speed.</p>
+
+<p>Are \(H_a\) and \(H_b\) equal when the particle is moving horizontally or vertically, or are they not equal at all? <button class="solution" data-solution="showAB"></button></p>
+<div class="solution" data-solution="showAB">
+<p>\(H_a\) and \(H_b\) are equal when the particle is moving horizontally, because the component of the position vectors orthogonal to the velocity is the same.</p>
+</div>
+
+<p>Are \(H_a\) and \(H_d\) equal when the particle is moving horizontally or vertically, or are they not equal at all? <button class="solution" data-solution="showAD"></button></p>
+<div class="solution" data-solution="showAD">
+<p>\(H_a\) and \(H_b\) are equal when the particle is moving horizontally, because the component of the position vectors orthogonal to the velocity is the same.</p>
+</div>
+
+<p>When the particle is moving horizontally, about which points is the angular momentum equal? What about when it is moving vertically? <button class="solution" data-solution="showAll"></button></p>
+<div class="solution" data-solution="showAll">
+<p>When the particle is moving horizontally, the vertical component of position is the same for points in a horizontal row, so the angular momentum is the same about \(a,b,c\) as well as \(d,e,f\) and \(g,h,i\). Similarly, for vertical motion we need equal horizontal position components, so \(H_a,H_d,H_g\) are equal, etc.</p>
+</div>
+
+</div>
+<script type="application/javascript">new prairieDraw.ExampleController('angMomPointsSquareOuter');</script>
+</div>
+
+<h3>Adding angular momenta</h3>
+
+<p>If we have two bodies, whether connected or not, then the total angular momentum is the sum</p>
+
+<p>\[\label{eqn:ang_mom_addition} \boldsymbol{H}_O^{\rm tot} = \boldsymbol{H}_O^1 + \boldsymbol{H}_O^2\]</p>
+
+<p>of the angular momenta \(\boldsymbol{H}_O^1\) and \(\boldsymbol{H}_O^2\) of bodies 1 and 2.</p>
+
+<p class="warning"><strong>Note:</strong> Angular momenta can only be added together if they are both about the same reference point. It makes no sense to write \(\boldsymbol{H}_O^1 + \boldsymbol{H}_C^2\), for example.</p>
+
+<h3>Relationship between angular momentum in 2D and 3D</h3>
+
+<canvas id="pendulum3DCanvas" width="400" height="400"></canvas>
+<script src="./test/pendulum3D.js"></script>
+<script type="application/javascript">
+pendulum3D = new Pendulum3D('pendulum3DCanvas');
+
+function stopStartPendulum3D(button) {
+if (button.childNodes[0].nodeValue == "Start") {
+button.childNodes[0].nodeValue = "Stop";
+pendulum3D.start();
+} else {
+button.childNodes[0].nodeValue = "Start";
+pendulum3D.stop();
+}
+}
+</script>
+<button onclick="stopStartPendulum3D(this);">Stop</button>
+
+<h2>Calculating angular momentum</h2>
+
+<h2>Solving problems using angular momentum</h2>
+
+</div> <!-- midcol -->
+
+<div class="rightcol">
+
+<h2>See also</h2>
+<ul>
+<li><p><a href="angular_momentum_2d">Angular momentum in 2D</a></p></li>
+<li><p><a href="angular_momentum_rigid_body_derivation">Derivation of the rigid body angular momentum equation</a></p></li>
+<li><p><a href="moment">Moment</a></p></li>
+<li><p><a href="linear_momentum">Linear momentum</a></p></li>
+<li><p><a href="newtons_eqn_moment">Newton’s moment equation</a></p></li>
+</ul>
+
+<h2>External links</h2>
+<ul>
+<li><p>Wikipedia page: <a href="http://en.wikipedia.org/wiki/Angular_momentum">Angular momentum</a></p></li>
+</ul>
+
+<h2>Example problems</h2>
+<ul>
+<li><p><a href="hw5-2_q2">Homework 5.2, Question 2</a> (<a href="hw5-2_q2_soln">Solution</a>, <a href="hw5-2_q2_explain">Explanation</a>)</p></li>
+</ul>
+
+<h2>Applications</h2>
+<ul>
+<li><p><a href="transition_curves">Transition curves for highway design</a></p></li>
+<li><p><a href="satellite_despin">Satellite despinning</a></p></li>
+</ul>
+
+</div> <!-- rightcol -->
+
+</div> <!-- content -->
+</div> <!-- container -->
+</body>
+</html>
