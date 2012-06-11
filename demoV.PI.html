@@ -16,20 +16,20 @@ canvas {
 <canvas id="test" width="200" height="200"></canvas>
 <script type="application/javascript">
 optionPD = new PrairieDraw("test", function() {
-	this.addOption("multiply", 1);
+	this.addOption("multiply",false);
 	
 	var O = $V([0,0]);
-	var P = $V([0,this.getOption("multiply")]);
+	var P = $V([0,1]);
 	this.setUnits(4, 4);
-	this.setProp("arrowLineWidthPx",3);
+	this.setProp("arrowLineWidthPx",2);
 	this.arrow(O, P);
 	
-	if (this.getOption("multiply")==2) {
-		this.setProp("arrowLineWidthPx",3);
-        this.arrow(O, $([0,2]));
+	if (this.getOption("multiply")) {
+		this.setProp("arrowLineWidthPx",4);
+        this.arrow(O, $V([0,2]));
     }
 });
 </script>
-<p><button onclick="optionPD.setOption('multiply',2);">Multiply by 2</button>
+<p><button onclick="optionPD.toggleOption('multiply');">Multiply by 2</button>
 
 </body>
