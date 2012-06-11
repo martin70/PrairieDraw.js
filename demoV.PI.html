@@ -22,12 +22,12 @@ optionPD = new PrairieDraw("test", function() {
 	var P = $V([0,1]);
 	this.setUnits(4, 4);
 	this.setProp("arrowLineWidthPx",2);
-	this.arrow(O, P);
 	
 	if (this.getOption("multiply")) {
-		this.setProp("arrowLineWidthPx",4);
-        this.arrow(O, $V([0,2]));
+        this.scale($V([2,2]));
     }
+	
+	this.arrow(O, P);
 });
 </script>
 <p><button onclick="optionPD.toggleOption('multiply');">Multiply by 2</button>
