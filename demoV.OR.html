@@ -16,9 +16,29 @@ canvas {
 
 <canvas id="V.OR" width="200" height="200"></canvas>
 <script type="application/javascript">
-new PrairieDraw("V.OR", function() {
+orthogonalPD = new PrairieDraw("V.OR", function() {
+	this.addOption("orthogonal",false);
 	
+	this.setUnits(4, 4);
+	this.setProp("arrowLineWidthPx",2);
+	
+	this.rotate(-Math.PI/4);
+	
+	var O = $V([0,0]);
+	var P = $V([0,2]);
+	
+	var pos = $V([2,0]);
+	var neg = $V([-2,0]);
+	
+	this.arrow(O, P);
+	
+	if (this.getOption("orthogonal")) {
+		this.arrow(O, pos);
+		this.arrow(O, neg);
+	}
 });
 </script>
+<p><button onclick="orthogonalPD.toggleOption('orthogonal');">See Orthogonal Vectors</button>
+<p>
 
 </body>
