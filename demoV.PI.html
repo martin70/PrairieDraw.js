@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>PrairieDraw.js Demo</title>
 <script src="sylvester.js"></script>
+<script src="sha1.js"></script>
 <script src="PrairieDraw.js"></script>
 <style>
 canvas {
@@ -17,42 +18,28 @@ canvas {
 <script type="application/javascript">
 multiplyPD = new PrairieDraw("multiplication", function() {
 	this.addOption("multiply",false);
+	this.addOption("add",false);
 	
 	var O = $V([0,0]);
 	var P = $V([0,1]);
-	this.setUnits(4, 4);
+	var Q = $V([-1,0]);
+	var W = $V([0,-1]);
+	this.setUnits(6, 6);
 	this.setProp("arrowLineWidthPx",2);
+	this.text($V([1,1]), $V([1, 1]), "TEX:$v$");
 	
 	if (this.getOption("multiply")) {
         this.scale($V([2,2]));
     }
+	if (this.getOption("add")) {
+		this.arrow(O.add(Q), P.add(W));
+	}
 
 	this.arrow(O, P);
+	this.arrow(Q, W);
 });
 </script>
-<p><button onclick="multiplyPD.toggleOption('multiply');">Multiply by 2</button><p>
-
-
-<canvas id="addition" width="200" height="200"></canvas>
-<script type="application/javascript">
-addPD = new PrairieDraw("addition", function() {
-	this.addOption("add",false);
-	
-	this.setUnits(4, 4);
-	this.setProp("arrowLineWidthPx",2);
-	
-	var O1 = $V([0,0]);
-	var P1 = $V([1,1]);
-	var O2 = $V([0,0]);
-	var P2 = $V([-1,1]);
-	this.arrow(O1, P1);
-	this.arrow(O2, P2);
-	
-	if (this.getOption("add")) {
-        this.arrow(O1.add(O2), P1.add(P2)); //TODO make this not hardcoded
-    }
-});
-</script>
-<p><button onclick="addPD.toggleOption('add');">Add</button><p>
+<p><button onclick="multiplyPD.toggleOption('multiply');">Multiply by 2</button>
+<button onclick="multiplyPD.toggleOption('add');">Add v and w</button></p>
 
 </body>
