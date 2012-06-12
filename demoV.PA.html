@@ -16,9 +16,32 @@ canvas {
 
 <canvas id="V.PA" width="200" height="200"></canvas>
 <script type="application/javascript">
-new PrairieDraw("V.PA", function() {
+parallelogramPD = new PrairieDraw("V.PA", function() {
+	this.addOption("parallelogram",false);
 	
+	this.setUnits(6, 6);
+	this.setProp("arrowLineWidthPx",2);
+	
+	var O = $V([0,0]);
+	var P = $V([2,0]);
+	var Q = $V([3,1]);
+	
+	this.arrow(O, P);
+	this.arrow(P, Q);
+	this.arrow(O, Q);
+	
+	if (this.getOption("parallelogram")) {
+		var R = $V([1,1]);
+		
+		this.save();
+		this.setProp("arrowLineWidthPx",1);
+		this.arrow(O, R);
+		this.arrow(R, Q);
+		this.restore();
+	}
 });
 </script>
+<p><button onclick="parallelogramPD.toggleOption('parallelogram');">See Parallelogram</button>
+<p>
 
 </body>
