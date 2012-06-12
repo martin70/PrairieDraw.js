@@ -16,9 +16,28 @@ canvas {
 
 <canvas id="V.BS" width="200" height="200"></canvas>
 <script type="application/javascript">
-new PrairieDraw("V.BS", function() {
+componentsPD = new PrairieDraw("V.BS", function() {
+	this.addOption("components",false);
+	
+	this.setUnits(4, 4);
+	this.setProp("arrowLineWidthPx",2);
+	
+	this.translate($V([-1,-1]));
+	
+	var O = $V([0,0]);
+	var P = $V([2,2]);
+	var X = $V([0,2]);
+	var Y = $V([2,0]);
+	this.arrow(O, P);
+	
+	if (this.getOption("components")) {
+        this.arrow(O, X);
+		this.arrow(O, Y);
+    }
 	
 });
 </script>
+<p><button onclick="componentsPD.toggleOption('components');">See Components</button>
+<p>
 
 </body>
