@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>PrairieDraw.js Demo</title>
+<title>Example V.PI</title>
 <script src="sylvester.js"></script>
 <script src="sha1.js"></script>
 <script src="PrairieDraw.js"></script>
@@ -14,9 +14,9 @@ canvas {
 </head>
 
 <body>
-<canvas id="multiplication" width="200" height="200"></canvas>
+<canvas id="V.PI" width="200" height="200"></canvas>
 <script type="application/javascript">
-multiplyPD = new PrairieDraw("multiplication", function() {
+vectormathPD = new PrairieDraw("V.PI", function() {
 	this.addOption("multiply",false);
 	this.addOption("add",false);
 	
@@ -39,7 +39,7 @@ multiplyPD = new PrairieDraw("multiplication", function() {
 	this.arrow(Q, W);
 });
 </script>
-<p><button onclick="multiplyPD.toggleOption('multiply');">Multiply by 2</button>
-<button onclick="multiplyPD.toggleOption('add');">Add v and w</button></p>
+<p><button onclick="vectormathPD.toggleOption('multiply');">Multiply by 2</button>
+<button onclick="vectormathPD.toggleOption('add');">Add v and w</button></p>
 
 </body>
