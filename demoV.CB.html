@@ -16,9 +16,17 @@ canvas {
 
 <canvas id="V.CB" width="200" height="200"></canvas>
 <script type="application/javascript">
-new PrairieDraw("V.CB", function() {
+basisPD = new PrairieDraw("V.CB", function() {
+	this.addOption("basis",false);
 	
+	
+	
+	if (this.getOption("basis")) {
+	
+	}
 });
 </script>
+<p><button onclick="basisPD.toggleOption('basis');">Change Basis</button>
+<p>
 
 </body>
