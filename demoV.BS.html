@@ -16,6 +16,8 @@ canvas {
 
 <canvas id="V.BS" width="400" height="400"></canvas>
 <script type="application/javascript">
+var state = false; //true is "ij", false is "ab"
+var i = 0;
 componentsPD = new PrairieDrawAnim("V.BS", function(t) {
 	this.addOption("components",false);
 	
@@ -35,6 +37,12 @@ componentsPD = new PrairieDrawAnim("V.BS", function(t) {
         this.arrow(O, X);
 		this.arrow(O, Y);
     }
+	if(this._running == true) {
+		if(state==true)
+			this.circleArrow(O, 1, 0+t, (1/2*Math.PI)+t);
+		else if(state==false)
+			this.circleArrow(O, 1, (1/2*Math.PI)+t, 0+t);
+	}
 	
 	this.setProp("arrowLineWidthPx",1);
 	this.arrow($V([0,0]), $V([3,0]));
@@ -48,10 +56,11 @@ componentsPD = new PrairieDrawAnim("V.BS", function(t) {
 	this.text($V([-0.8,1]), $V([-1,1]), "b");
 	
 	
+	
 });
 </script>
 <p><button onclick="componentsPD.toggleOption('components');">See Components</button>
-<button onclick="componentsPD.toggleAnim();">Change Basis</button>
+<button onclick="componentsPD.toggleAnim(); i++; if(i%2!=0) state=!state;">Change Basis</button>
 <p>
 
 </body>
