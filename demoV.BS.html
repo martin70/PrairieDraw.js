@@ -16,18 +16,19 @@ canvas {
 
 <canvas id="V.BS" width="200" height="200"></canvas>
 <script type="application/javascript">
-componentsPD = new PrairieDraw("V.BS", function() {
+componentsPD = new PrairieDrawAnim("V.BS", function(t) {
 	this.addOption("components",false);
 	
 	this.setUnits(4, 4);
 	this.setProp("arrowLineWidthPx",2);
-	
+
 	this.translate($V([-1,-1]));
 	
 	var O = $V([0,0]);
 	var P = $V([2,2]);
-	var X = $V([0,2]);
-	var Y = $V([2,0]);
+	var X = $V([2*Math.cos(t), 2*Math.sin(t)]);
+	var Y = $V([2*Math.cos(t+Math.PI/2), 2*Math.sin(t+Math.PI/2)]);
+	
 	this.arrow(O, P);
 	
 	if (this.getOption("components")) {
@@ -35,9 +36,11 @@ componentsPD = new PrairieDraw("V.BS", function() {
 		this.arrow(O, Y);
     }
 	
+	
 });
 </script>
 <p><button onclick="componentsPD.toggleOption('components');">See Components</button>
+<button onclick="componentsPD.toggleAnim();">Change Basis</button>
 <p>
 
 </body>
