@@ -16,6 +16,7 @@ canvas {
 
 <canvas id="V.BS" width="400" height="400"></canvas>
 <script type="application/javascript">
+var comps = false;
 componentsPD = new PrairieDrawAnim("V.BS", function(t) {
 	this.addOption("components",false);
 
@@ -59,8 +60,8 @@ componentsPD = new PrairieDrawAnim("V.BS", function(t) {
 
 });
 </script>
-<p><button onclick="componentsPD.toggleOption('components');">See Components</button>
-<button onclick="componentsPD.toggleAnim();">Change Basis</button>
+<p><button onclick="componentsPD.toggleOption('components'); comps=!comps;">See Components</button>
+<button onclick="if(comps) componentsPD.toggleAnim();">Change Basis</button>
 <p>
 
 </body>
