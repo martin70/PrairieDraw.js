@@ -22,6 +22,8 @@ componentsPD = new PrairieDrawAnim("V.RB", function(t) {
 	this.setUnits(8, 8);
 	this.setProp("arrowLineWidthPx",2);
 	
+	var x_axis = $V([8 * Math.cos(t), 8 * Math.sin(t)]);
+	var y_axis = $V([8 * Math.cos(t+Math.PI/2), 8 * Math.sin(t+Math.PI/2)]);
 	var O = $V([0, 0]);
 	var P = $V([2, 2]);
 	
@@ -31,6 +33,13 @@ componentsPD = new PrairieDrawAnim("V.RB", function(t) {
 	}
 	
 	this.arrow(O, P);
+	
+	//AXES
+	this.setProp("arrowLineWidthPx",1);
+	this.arrow(O, x_axis);
+	this.arrow(O, y_axis);
+
+
 	
 });
 </script>
