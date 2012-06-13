@@ -28,15 +28,23 @@ parallelogramPD = new PrairieDraw("V.PA", function() {
 	var P = $V([2,0]);
 	var Q = $V([3,1]);
 	
-	this.arrow(O, P);
-	this.arrow(P, Q);
+
 	this.arrow(O, Q);
+	this.text($V([1.75,0.9]), $V([1,1]), "w = u + v");
 	
 	if (this.getOption("parallelogram")) {
 		var R = $V([1,1]);
 		
 		this.arrow(O, R);
 		this.arrow(R, Q);
+		this.text($V([0.2, 0.6]), $V([-1,0]), "v");
+		this.text($V([1.75, 1]), $V([-1,-1]), "u");
+	}
+	else {
+		this.arrow(O, P);
+		this.arrow(P, Q);
+		this.text($V([0.9,-0.35]), $V([-1,-1]), "u");
+		this.text($V([2.5,0.35]), $V([-1,0]), "v");
 	}
 });
 </script>
