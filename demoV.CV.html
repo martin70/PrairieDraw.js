@@ -16,9 +16,32 @@ canvas {
 
 <canvas id="V.CV" width="200" height="200"></canvas>
 <script type="application/javascript">
-new PrairieDraw("V.CV", function() {
+componentsPD = new PrairieDrawAnim("V.CV", function(t) {
+	this.addOption("components",false);
+	this.addOption("lengthen", false);
+	
+	this.setUnits(6, 6);
+	this.setProp("arrowLineWidthPx",2);
+	
+	var O = $V([0, 0]);
+	var P = $V([2 * Math.cos(t+Math.PI/4), 2 * Math.sin(t+Math.PI/4)]);
+	
+	if(this.getOption("lengthen")){
+		this.scale($V([1.5,1.5,0]));
+	}
+	
+	if(this.getOption("components")){
+		this.arrow(O, $V([P.e(1), 0]));
+		this.arrow(O, $V([0, P.e(2)]));
+	}
+	
+	this.arrow(O, P);
 	
 });
 </script>
+<p><button onclick="componentsPD.toggleOption('components');">See Components</button>
+<button onclick="componentsPD.toggleOption('lengthen');">Lengthen Vector</button>
+<button onclick="componentsPD.toggleAnim();">Rotate Vector</button>
+<p>
 
 </body>
