@@ -21,7 +21,7 @@ componentsPD = new PrairieDrawAnim("V.CB", function(t) {
 	this.addOption("components",false);
 
 	var back = {start:  0,         end: Math.PI/4, initial: 1, fin: 2};
-	var forth = {start: Math.PI/4, end: Math.PI/2, initial: 2, fin: 1};
+	var forth = {start: Math.PI/4, end: Math.PI/2, initial: 2.15, fin: 0.75};
 	var states = [back, forth];
 	var transTimes = [1, 1];
     var holdTimes = [2, 2];
@@ -38,11 +38,23 @@ componentsPD = new PrairieDrawAnim("V.CB", function(t) {
 	var Y = this.vector2DAtAngle(state.end+Math.PI/4).x(state.fin);
 	
 	this.arrow(O, P);
+	this.text($V([1.25, 2.25]), $V([1,1]), "w = u + v");
 
 	if (this.getOption("components")) {
         this.arrow(O, X);
 		this.arrow(O, Y);
+		
+		if (t % 6 == 0 || (t % 6 >= 4 && t % 6 < 6)){ //state.index == 0
+			this.text($V([0.5,-0.2]), $V([1,-1]), "u");
+			this.text($V([-0.1,1]), $V([0,1]), "v");
+		}
+		else if (t % 6 >= 1 && t % 6 < 3){ //state.index == 1
+			this.text($V([0.85,0.6]), $V([1,-1]), "u");
+			this.text($V([-0.3,0.3]), $V([0,1]), "v");
+		}	
     }
+	
+
 
 	//AXES
 	this.setProp("arrowLineWidthPx",1);
