@@ -89,6 +89,8 @@ PrairieDraw.prototype._initProps = function() {
     this._props.accelerationColor = "rgb(255, 0, 255)";
     this._props.angMomColor = "rgb(255, 0, 0)";
     this._props.forceColor = "rgb(200, 200, 0)";
+	
+	this._props.lineStyle = "solid";
 }
 
 /*****************************************************************************/
@@ -397,6 +399,8 @@ PrairieDraw.prototype._setLineStyles = function(type) {
         if (col in this._props) {
             this._ctx.strokeStyle = this._props[col];
             this._ctx.fillStyle = this._props[col];
+		} else if(type == "dashed" || type == "solid"){
+			this._props.lineStyle = type;
         } else {
             throw new Error("PrairieDraw: unknown type: " + type);
         }
@@ -418,13 +422,56 @@ PrairieDraw.prototype.line = function(startDw, endDw, type) {
     this._ctx.save();
     this._setLineStyles(type);
     this._ctx.beginPath();
-    this._ctx.moveTo(startPx.e(1), startPx.e(2));
-    this._ctx.lineTo(endPx.e(1), endPx.e(2));
+	if(this._props.lineStyle == "solid"){
+		this._ctx.moveTo(startPx.e(1), startPx.e(2));
+		this._ctx.lineTo(endPx.e(1), endPx.e(2));
+	}
+	else if(this._props.lineStyle == "dashed"){
+		this._dashedLine(startPx, endPx);
+	}
     this._ctx.stroke();
     this._ctx.restore();
 }
 
 /*****************************************************************************/
+/** @private Draw a dashed line
+*/
+var __dashedLine = {
+      isDrawing : true,
+      unFinishedPixelsFromLastDash : 0
+}
+PrairieDraw.prototype._dashedLine = function(from, to){
+	 var x=from.e(1), y=from.e(2),
+		  dashLength		= 4, //change this to make dots, longer dashes, or whatever
+          dx                = (to.e(1) - x) + .00000001,
+          dy                = to.e(2) - y,
+          slope             = dy/dx,
+          distanceRemaining = Math.sqrt(dx*dx + dy*dy),
+          bUnfinishedPixels = false,
+          theDashLength,
+          xStep;
+      this._ctx.moveTo(x,y);
+	  while (distanceRemaining>=0.1) {
+        if (__dashedLine.unFinishedPixelsFromLastDash === 0) {
+          theDashLength = dashLength;
+        } else {
+          theDashLength = __dashedLine.unFinishedPixelsFromLastDash;
+          __dashedLine.unFinishedPixelsFromLastDash = 0;
+          __dashedLine.isDrawing = !__dashedLine.isDrawing
+        }
+        if (dashLength > distanceRemaining) { dashLength = distanceRemaining; bUnfinishedPixels=true; }
+        xStep = Math.sqrt( theDashLength*theDashLength / (1 + slope*slope) );
+        x += xStep;
+        y += slope*xStep;
+        this._ctx[__dashedLine.isDrawing ? 'lineTo' : 'moveTo'](x,y);
+        distanceRemaining -= theDashLength;
+        __dashedLine.isDrawing = !__dashedLine.isDrawing;
+      }
+      if (bUnfinishedPixels) {
+        __dashedLine.unFinishedPixelsFromLastDash = theDashLength;
+      }
+}
+
 
 /** @private Draw an arrowhead.
 
