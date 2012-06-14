@@ -19,20 +19,37 @@ canvas {
 componentsPD = new PrairieDrawAnim("V.RB", function(t) {
 	this.addOption("components",false);
 	
-	this.setUnits(8, 8);
+	this.setUnits(4, 4);
 	this.setProp("arrowLineWidthPx",2);
 	
+	var x_axis = $V([Math.cos(t/2), Math.sin(t/2)]).x(4);
+	var y_axis = $V([Math.cos(t/2+Math.PI/2), Math.sin(t/2+Math.PI/2)]).x(4);
 	var O = $V([0, 0]);
-	var P = $V([2, 2]);
+	var P = $V([Math.sqrt(2), Math.sqrt(2)]);
 	
 	if(this.getOption("components")){
-		this.arrow(O, $V([P.e(1) * Math.cos(t), P.e(1) * Math.sin(t)]));
-		this.arrow(O, $V([P.e(2) * Math.cos(t+Math.PI/2), P.e(2) * Math.sin(t+Math.PI/2)]));
+		this.arrow(O, ellipse(t, "x"));
+		this.arrow(O, ellipse(t, "y"));
 	}
 	
 	this.arrow(O, P);
 	
+	//AXES
+	this.setProp("arrowLineWidthPx",1);
+	this.arrow(O, x_axis);
+	this.arrow(O, y_axis);
+	
 });
+function ellipse(t, axis){
+	if(axis=="x")
+		t = t-Math.PI/2;
+	else if(axis=="y")
+		t = t+Math.PI/2;
+	
+	x = Math.sqrt(2)/2 + 1*Math.cos(t)*Math.cos(Math.PI/4) - 1*Math.sin(t)*Math.sin(Math.PI/4);
+	y = Math.sqrt(2)/2 + 1*Math.cos(t)*Math.sin(Math.PI/4) + 1*Math.sin(t)*Math.cos(Math.PI/4);
+	return $V([x,y]);
+}
 </script>
 <p>
 <button onclick="componentsPD.toggleOption('components');">See Components</button>
