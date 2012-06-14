@@ -14,9 +14,54 @@ canvas {
 
 <body>
 
-<canvas id="V.CV" width="200" height="200"></canvas>
+<canvas id="V.CVR" width="200" height="200"></canvas>
 <script type="application/javascript">
-componentsPD = new PrairieDrawAnim("V.CV", function(t) {
+var rotateCounter = 0;
+componentsPDR = new PrairieDrawAnim("V.CVR", function(t) {
+	this.addOption("components",false);
+	this.addOption("rotate", false);
+	
+	this.setUnits(6, 6);
+	this.setProp("arrowLineWidthPx",2);
+	
+	var O = $V([0, 0]);
+	var P = $V([2.5 * Math.cos(t+Math.PI/4), 2.5 * Math.sin(t+Math.PI/4)]);
+	
+	if(this.getOption("rotate") && rotateCounter == 0){
+		this.startAnim();
+		rotateCounter = 1;
+	}
+	else if (!this.getOption("rotate") && rotateCounter == 1) {
+		this.stopAnim();
+		rotateCounter = 0;
+	}
+	
+	if(this.getOption("components")){
+		this.arrow(O, $V([P.e(1), 0]));
+		this.text($V([P.e(1)/2, -0.5]), $V([-1,-1]), "u");
+		this.arrow(O, $V([0, P.e(2)]));
+		this.text($V([-0.5, P.e(2)/2]), $V([-1,1]), "v");
+	}
+	
+	this.arrow(O, P);
+	this.text($V([P.e(1)+0.5, P.e(2)+0.5]), $V([1,1]), "w = u + v");
+	
+	this.setProp("arrowLineWidthPx", 1);
+	this.arrow($V([-3,0]), $V([3,0]));
+	this.text($V([3,0.2]), $V([1,0]), "i");
+	this.arrow($V([0,-3]), $V([0,3]));
+	this.text($V([0.15,3]), $V([0,1]), "j");
+	
+});
+</script>
+<p><button onclick="componentsPDR.toggleOption('components');">See Components</button>
+<button onclick="componentsPDR.toggleOption('rotate');">Rotate Vector</button>
+<p>
+
+<canvas id="V.CVL" width="200" height="200"></canvas>
+<script type="application/javascript">
+var lengthCounter = 0;
+componentsPDL = new PrairieDrawAnim("V.CVL", function(t) {
 	this.addOption("components",false);
 	this.addOption("lengthen", false);
 	
@@ -24,24 +69,37 @@ componentsPD = new PrairieDrawAnim("V.CV", function(t) {
 	this.setProp("arrowLineWidthPx",2);
 	
 	var O = $V([0, 0]);
-	var P = $V([2 * Math.cos(t+Math.PI/4), 2 * Math.sin(t+Math.PI/4)]);
+	var P = $V([2 + Math.sin(t)/2, 2 + Math.sin(t)/2]);
 	
-	if(this.getOption("lengthen")){
-		this.scale($V([1.5,1.5,0]));
+	if(this.getOption("lengthen") && lengthCounter == 0){
+		this.startAnim();
+		lengthCounter = 1;
+	}
+	else if (!this.getOption("lengthen") && lengthCounter == 1) {
+		this.stopAnim();
+		lengthCounter = 0;
 	}
 	
 	if(this.getOption("components")){
 		this.arrow(O, $V([P.e(1), 0]));
+		this.text($V([P.e(1)/2, -0.5]), $V([-1,-1]), "u");
 		this.arrow(O, $V([0, P.e(2)]));
+		this.text($V([-0.5, P.e(2)/2]), $V([-1,1]), "v");
 	}
 	
 	this.arrow(O, P);
+	this.text($V([P.e(1)+0.5, P.e(2)+0.5]), $V([1,1]), "w = u + v");
+	
+	this.setProp("arrowLineWidthPx", 1);
+	this.arrow($V([-3,0]), $V([3,0]));
+	this.text($V([3,0.2]), $V([1,0]), "i");
+	this.arrow($V([0,-3]), $V([0,3]));
+	this.text($V([0.15,3]), $V([0,1]), "j");
 	
 });
 </script>
-<p><button onclick="componentsPD.toggleOption('components');">See Components</button>
-<button onclick="componentsPD.toggleOption('lengthen');">Lengthen Vector</button>
-<button onclick="componentsPD.toggleAnim();">Rotate Vector</button>
+<p><button onclick="componentsPDL.toggleOption('components');">See Components</button>
+<button onclick="componentsPDL.toggleOption('lengthen');">Lengthen Vector</button>
 <p>
 
 </body>
