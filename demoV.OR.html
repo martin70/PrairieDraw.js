@@ -14,7 +14,7 @@ canvas {
 
 <body>
 
-<canvas id="V.OR" width="200" height="200"></canvas>
+<canvas id="V.OR" width="400" height="400"></canvas>
 <script type="application/javascript">
 orthogonalPD = new PrairieDraw("V.OR", function() {
 	this.addOption("orthogonal",false);
@@ -22,6 +22,7 @@ orthogonalPD = new PrairieDraw("V.OR", function() {
 	this.setUnits(4, 4);
 	this.setProp("arrowLineWidthPx",2);
 	
+	this.save();
 	this.rotate(-Math.PI/4);
 	
 	var O = $V([0,0]);
@@ -31,11 +32,22 @@ orthogonalPD = new PrairieDraw("V.OR", function() {
 	var neg = $V([-2,0]);
 	
 	this.arrow(O, P);
+	this.text($V([P.e(1)+0.2, P.e(2)+0.2]), $V([1,0]), "u");
 	
 	if (this.getOption("orthogonal")) {
 		this.arrow(O, pos);
+		this.text($V([pos.e(1)+0.2, pos.e(2)+0.2]), $V([1,1]), "v")
 		this.arrow(O, neg);
+		this.text($V([neg.e(1)-0.2, neg.e(2)-0.2]), $V([-1,-1]), "w")
 	}
+	
+	this.restore();
+	
+	this.setProp("arrowLineWidthPx", 1);
+	this.arrow($V([-2,0]), $V([2,0]));
+	this.text($V([2,0.2]), $V([1,0]), "i");
+	this.arrow($V([0,-2]), $V([0,2]));
+	this.text($V([0.15,2]), $V([0,1]), "j");
 });
 </script>
 <p><button onclick="orthogonalPD.toggleOption('orthogonal');">See Orthogonal Vectors</button>

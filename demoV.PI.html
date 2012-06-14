@@ -14,8 +14,9 @@ canvas {
 </head>
 
 <body>
-<canvas id="V.PI" width="200" height="200"></canvas>
+<canvas id="V.PI" width="400" height="400"></canvas>
 <script type="application/javascript">
+//labels are hard-coded in this example
 vectormathPD = new PrairieDraw("V.PI", function() {
 	this.addOption("multiply",false);
 	this.addOption("add",false);
@@ -30,9 +31,22 @@ vectormathPD = new PrairieDraw("V.PI", function() {
 	
 	if (this.getOption("multiply")) {
         this.scale($V([2,2]));
+		this.text($V([0.2,0.6]), $V([1,1]), "2*v");
+		this.text($V([-0.7, -0.7]), $V([-1,-1]), "2*w");
     }
+	else {
+		this.text($V([0.2, 0.6]), $V([1,1]), "v");
+		this.text($V([-0.7, -0.7]), $V([-1,-1]), "w");
+	}
+	
 	if (this.getOption("add")) {
-		this.arrow(O.add(Q), P.add(W));
+		var A = O.add(Q);
+		var B = P.add(W);
+		this.arrow(A, B);
+		this.text($V([A.e(1)/2, A.e(2)/2 + 0.3]), $V([0,1]), "u = v + w");
+		if (this.getOption("multiply")) {
+			this.text($V([A.e(1)/2, A.e(2)/2 + 0.3]), $V([0,1]), "u = v + w");
+		}
 	}
 
 	this.arrow(O, P);
