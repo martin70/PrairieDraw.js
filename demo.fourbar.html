@@ -20,36 +20,33 @@ animPD = new PrairieDrawAnim("fourbar", function(t) {
 	this.setUnits(6, 6);
 	this.setProp("arrowLineWidthPx",2);
 	
-	this.translate($V([0,-0.5]));
-	
 	var G = $V([0, -0.5]); //ground
-	var T = $V([1.5, 0]); //translation vector
-	
-	var O = $V([0,0]); 						//1
-	var P = $V([Math.cos(t), Math.sin(t)]); //2
-	var Q = $V([Math.cos(t), Math.sin(t)]); //3
-											//4 is O, translated and negative-ified
-	
 	this.ground(G, $V([0, 1]), 10);
-	this.pivot(G.add(T.x(-1)), O.add(T.x(-1)), 0.5);
-	this.pivot(G.add(T), O.add(T), 0.5);
 	
-	//left
-	this.rod(O.add(T.x(-1)), P.add(T.x(-1)), 0.25);
-	this.point(O.add(T.x(-1)));
+	var pivot_left = $V([-1.5, 0]);
+	var pivot_right = $V([1.5, 0]);
 	
-	//right
-	this.rod(O.add(T), Q.add(T), 0.25);
-	this.point(O.add(T));
+	this.pivot($V([pivot_left.e(1), -0.5]), pivot_left, 0.5);
+	this.pivot($V([pivot_right.e(1), -0.5]), pivot_right, 0.5);
 	
-	//middle
-	this.rod(P.add(T.x(-1)), Q.add(T), 0.25);
+	var AD = 1;
+	var AB = 3;
+	var BC = 1;
+	var CD = 3;
+	var BD = Math.sqrt(AD*AD + AB*AB - 2*AD*AB*Math.cos(t));
+	var C = Math.acos((BC*BC + CD*CD - BD*BD)/(2*BC*CD));
 	
+	var rotation = $V([Math.cos(t), Math.sin(t)]);
 	
+	this.rod(pivot_left, rotation.add($V([-1.5,0])), 0.25);
+	this.point(pivot_left);
 	
+	//this.rod(rotation.add($V([-1.5,0])), , 0.25);
+	this.point(rotation.add($V([-1.5,0])));
+	//this.point();
 	
-	
-	
+	//this.rod( , pivot_right, 0.25);
+	this.point(pivot_right);
 	
 
 });
