@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Four Bar Example</title>
+<script src="sylvester.js"></script>
+<script src="PrairieDraw.js"></script>
+<style>
+canvas {
+    border: 1px solid black;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="fourbar" width="400" height="400"></canvas>
+<script type="application/javascript">
+animPD = new PrairieDrawAnim("fourbar", function(t) {
+	this.setUnits(6, 6);
+	this.setProp("arrowLineWidthPx",2);
+	
+	var O = $V([0,0]);
+	var P = $V([Math.cos(t), Math.sin(t)]);
+	
+	this.rod(O, P, 0.25);
+	
+	this.translate(P);
+	this.rod(O, P, 0.25);
+});
+</script>
+<p><button onclick="animPD.toggleAnim();">Toggle animation</button><p>
+
+
+</body>
