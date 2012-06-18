@@ -20,21 +20,38 @@ animPD = new PrairieDrawAnim("fourbar", function(t) {
 	this.setUnits(6, 6);
 	this.setProp("arrowLineWidthPx",2);
 	
-	var G = $V([0, -0.5]);
-	var O = $V([0,0]);
-	var P = $V([Math.cos(t), Math.sin(t)]);
+	this.translate($V([0,-0.5]));
+	
+	var G = $V([0, -0.5]); //ground
+	var T = $V([1.5, 0]); //translation vector
+	
+	var O = $V([0,0]); 						//1
+	var P = $V([Math.cos(t), Math.sin(t)]); //2
+	var Q = $V([Math.cos(t), Math.sin(t)]); //3
+											//4 is O, translated and negative-ified
 	
 	this.ground(G, $V([0, 1]), 10);
+	this.pivot(G.add(T.x(-1)), O.add(T.x(-1)), 0.5);
+	this.pivot(G.add(T), O.add(T), 0.5);
 	
-	this.pivot(G, O, -0.5);
-	this.rod(O, P, 0.25);
-	this.point(O);
+	//left
+	this.rod(O.add(T.x(-1)), P.add(T.x(-1)), 0.25);
+	this.point(O.add(T.x(-1)));
 	
-	this.translate(P);
-	this.rod(O, P, 0.25);
-	this.point(O);
+	//right
+	this.rod(O.add(T), Q.add(T), 0.25);
+	this.point(O.add(T));
+	
+	//middle
+	this.rod(P.add(T.x(-1)), Q.add(T), 0.25);
 	
 	
+	
+	
+	
+	
+	
+
 });
 </script>
 <p><button onclick="animPD.toggleAnim();">Toggle animation</button><p>
