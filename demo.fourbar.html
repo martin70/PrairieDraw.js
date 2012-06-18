@@ -35,18 +35,25 @@ animPD = new PrairieDrawAnim("fourbar", function(t) {
 	var CD = 3;
 	var BD = Math.sqrt(AD*AD + AB*AB - 2*AD*AB*Math.cos(t));
 	var C = Math.acos((BC*BC + CD*CD - BD*BD)/(2*BC*CD));
+	var BDC = Math.asin(BC * Math.sin(C) / BD);
+	var ADB = Math.asin(AB * Math.sin(t) / BD);
+	var D = BDC + ADB;
 	
-	var rotation = $V([Math.cos(t), Math.sin(t)]);
+	this.translate($V([-1.5,1])); //translate to origin
+	this.rotate(t); //rotate
+	//this.translate(pivot_left); //translate back
 	
-	this.rod(pivot_left, rotation.add($V([-1.5,0])), 0.25);
-	this.point(pivot_left);
 	
-	//this.rod(rotation.add($V([-1.5,0])), , 0.25);
-	this.point(rotation.add($V([-1.5,0])));
-	//this.point();
 	
-	//this.rod( , pivot_right, 0.25);
-	this.point(pivot_right);
+	this.rod(pivot_left, $V([-1.5,1]), 0.25);
+	
+	//this.rotate(D);
+	
+	//this.rod($V([-1.5,1]), $V([1.5,1]), 0.25);
+	
+	//this.rotate(C);
+	
+	//this.rod($V([1.5,1]), pivot_right, 0.25);
 	
 
 });

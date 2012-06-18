@@ -13,12 +13,17 @@ canvas {
 </head>
 
 <body>
-<canvas id="test" width="200" height="200"></canvas>
+<canvas id="anim" width="400" height="400"></canvas>
 <script type="application/javascript">
-new PrairieDraw("test", function() {
-	this.setUnits(2, 2);
-	this.line($V([0, 0]), $V([1, 1]));
-	});
+animPD = new PrairieDrawAnim("anim", function(t) {
+    this.setUnits(6, 6);
+    var O = $V([0, 0]);
+    //var P = $V([2 * Math.cos(t), 2 * Math.sin(t)]);
+	this.rotate(t);
+	var P = $V([2,2]);
+    this.arrow(O, P);
+});
 </script>
+<button onclick="animPD.toggleAnim();">Toggle animation</button>
 
 </body>
