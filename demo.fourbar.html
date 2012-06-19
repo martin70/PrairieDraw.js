@@ -44,6 +44,8 @@ animPD = new PrairieDrawAnim("fourbar", function(t) {
 	var BCD = Math.asin(AD * Math.sin(t) / BD);
 	var B = ABD + BCD;
 	
+	t = -t; //to make it go clockwise, like example
+	
 	//DRAW FIRST BAR
 	this.save();
 		this.translate(pivot_left);
@@ -51,30 +53,21 @@ animPD = new PrairieDrawAnim("fourbar", function(t) {
 		this.rod($V([0,0]), $V([0,1]), 0.25);
 	
 	//DRAW SECOND BAR
-		this.save();
+	/*	this.save();
 			this.translate($V([0,1]));
 			this.rotate(t*-1); //undo the original t rotation
 			this.rotate(D);    //rotate by D only
 			this.rod($V([0,0]), $V([260/180,0]), 0.25);
-		this.restore();
+		this.restore();*/
 	this.restore();
 	
 	//DRAW THIRD BAR
 	this.save();
 		this.translate(pivot_right);
 		//this.rotate(45*Math.PI/64); //45/64
-		this.rotate(180-B);
+		this.rotate((Math.PI/4-B));
 		this.rod($V([0,0]), $V([0,2]), 0.25);
 	this.restore();
-	
-	//outline
-	/*this.rotate(t);
-	this.rod(pivot_left, $V([-1.5,1]), 0.25);
-	this.rotate(D);
-	this.rod($V([-1.5,1]), $V([1.5,1]), 0.25);
-	this.rotate(B);
-	this.rod($V([1.5,1]), pivot_right, 0.25);
-	*/
 
 });
 </script>
