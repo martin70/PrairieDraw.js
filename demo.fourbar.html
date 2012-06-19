@@ -47,18 +47,21 @@ animPD = new PrairieDrawAnim("fourbar", function(t) {
 	this.translate(pivot_left);
 	this.rotate(A);
 	this.rod($V([0,0]), $V([AD,0]), 0.25);
+	this.point($V([0,0]));
 
 	//SECOND BAR
 	this.translate($V([AD,0]));
 	this.rotate(A*-1); 	//"undo" the original A rotation
 	this.rotate(D);		//rotate by D only
 	this.rod($V([0,0]), $V([CD,0]), 0.25);
+	this.point($V([0,0]));
 	
 	//THIRD BAR
 	this.translate($V([CD,0]));
 	this.rotate(Math.PI+C);
 	this.rod($V([0,0]), $V([BC,0]), 0.25);
-	
+	this.point($V([0,0]));
+	this.point($V([BC,0]));
 });
 </script>
 <p><button onclick="animPD.toggleAnim();">Toggle animation</button><p>
