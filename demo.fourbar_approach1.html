@@ -20,6 +20,8 @@ animPD = new PrairieDrawAnim("fourbar", function(t) {
 	this.setUnits(6, 6);
 	this.setProp("arrowLineWidthPx",2);
 	
+	t += 90; //to start in a "working" spot
+	
 	//LENGTH AND ANGLE CALCULATIONS
 	var A = t; //"theta"
 	var AD = 180/180; //length of left bar
