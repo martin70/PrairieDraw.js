@@ -53,7 +53,7 @@ animPD = new PrairieDrawAnim("fourbar", function(t) {
 		this.rod($V([0,0]), $V([AD,0]), 0.25);
 
 	//DRAW SECOND BAR
-		this.translate($V([1,0]));
+		this.translate($V([AD,0]));
 		//this.rotate(A*-1); 	//"undo" the original A rotation
 		this.rotate(Math.PI+D);	//rotate by D only
 		this.rod($V([0,0]), $V([CD,0]), 0.25);
