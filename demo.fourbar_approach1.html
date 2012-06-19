@@ -19,7 +19,6 @@ canvas {
 animPD = new PrairieDrawAnim("fourbar", function(t) {
 	this.setUnits(6, 6);
 	this.setProp("arrowLineWidthPx",2);
-	
 	t += 90; //to start in a "working" spot
 	
 	//LENGTH AND ANGLE CALCULATIONS
@@ -38,7 +37,7 @@ animPD = new PrairieDrawAnim("fourbar", function(t) {
 	var B = ABD + DBC;
 	
 	//DRAW GROUND
-	var G = $V([0, -0.5]); //ground
+	var G = $V([0, -0.5]);
 	this.ground(G, $V([0, 1]), 10);
 	
 	//DRAW PIVOTS
@@ -55,12 +54,11 @@ animPD = new PrairieDrawAnim("fourbar", function(t) {
 
 	//DRAW SECOND BAR
 		this.translate($V([1,0]));
-		//this.rotate(A*-1); //"undo" the original A rotation
-		this.rotate(Math.PI+D);    //rotate by D only
+		//this.rotate(A*-1); 	//"undo" the original A rotation
+		this.rotate(Math.PI+D);	//rotate by D only
 		this.rod($V([0,0]), $V([CD,0]), 0.25);
 	this.restore();
 	
-
 	//DRAW THIRD BAR
 	this.translate(pivot_right);
 	this.rotate(Math.PI-B);
