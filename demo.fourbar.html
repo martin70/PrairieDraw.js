@@ -20,6 +20,7 @@ animPD = new PrairieDrawAnim("fourbar", function(t) {
 	this.setUnits(6, 6);
 	this.setProp("arrowLineWidthPx",2);
 	
+
 	var G = $V([0, -0.5]); //ground
 	this.ground(G, $V([0, 1]), 10);
 	
@@ -39,20 +40,28 @@ animPD = new PrairieDrawAnim("fourbar", function(t) {
 	var ADB = Math.asin(AB * Math.sin(t) / BD);
 	var D = BDC + ADB;
 	
-	this.translate($V([-1.5,1])); //translate to origin
-	this.rotate(t); //rotate
-	//this.translate(pivot_left); //translate back
+	this.translate(pivot_left);
+	this.rotate(t);
+	this.save();
+		this.rod($V([0,0]), $V([0,1]), 0.25);
+	this.restore();
 	
+	this.save();
+		this.translate($V([0,1]));
+		this.rotate(D);
+		this.rotate(t*-1);
+		this.rod($V([0,0]), $V([3,0]), 0.25);
+	this.restore();
 	
+	this.save();
+	//	this.rod($V([0,0]), pivot_right, 0.25);
+	this.restore();
 	
-	this.rod(pivot_left, $V([-1.5,1]), 0.25);
-	
+	//this.rotate(t);
+	//this.rod(pivot_left, $V([-1.5,1]), 0.25);
 	//this.rotate(D);
-	
 	//this.rod($V([-1.5,1]), $V([1.5,1]), 0.25);
-	
 	//this.rotate(C);
-	
 	//this.rod($V([1.5,1]), pivot_right, 0.25);
 	
 
