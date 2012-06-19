@@ -47,12 +47,14 @@ animPD = new PrairieDrawAnim("fourbar", function(t) {
 	
 		this.save();
 			this.translate($V([0,1]));
-			this.rotate(D);
+			this.rotate(180-D);
 			this.rotate(t*-1);
 			this.rod($V([0,0]), $V([3,0]), 0.25);
 		this.restore();
 	this.restore();
 	
+	this.rotate(t*D);
+	//this.rotate(D);
 	this.save();
 		this.translate(pivot_right);
 		this.rotate(C);
