@@ -20,55 +20,49 @@ animPD = new PrairieDrawAnim("fourbar", function(t) {
 	this.setUnits(6, 6);
 	this.setProp("arrowLineWidthPx",2);
 	
+	//LENGTH AND ANGLE CALCULATIONS
+	var A = t; //"theta"
+	var AD = 180/180; //length of left bar
+	var AB = 400/180; //distance between two stationary pivots
+	var BC = 360/180; //length of right bar
+	var CD = 260/180; //length of middle bar
+	var BD = Math.sqrt(AD*AD + AB*AB - 2*AD*AB*Math.cos(A));
+	var C = Math.acos((BC*BC + CD*CD - BD*BD)/(2*BC*CD));
+	var BDC = Math.asin(BC * Math.sin(C) / BD);
+	var ADB = Math.asin(AB * Math.sin(A) / BD);
+	var D = BDC + ADB;
+	var ABD = Math.asin(CD * Math.sin(C) / BD);
+	var DBC = Math.asin(AD * Math.sin(A) / BD);
+	var B = ABD + DBC;
+	
 	//DRAW GROUND
 	var G = $V([0, -0.5]); //ground
 	this.ground(G, $V([0, 1]), 10);
 	
 	//DRAW PIVOTS
-	var pivot_left = $V([-1*400/360, 0]);
-	var pivot_right = $V([400/360, 0]);
+	var pivot_left = $V([AB/-2, 0]);
+	var pivot_right = $V([AB/2, 0]);
 	this.pivot($V([pivot_left.e(1), -0.5]), pivot_left, 0.5);
 	this.pivot($V([pivot_right.e(1), -0.5]), pivot_right, 0.5);
-	
-	//LENGTH AND ANGLE CALCULATIONS
-	var AD = 180/180; //length of left bar
-	var AB = 400/180; //distance between two stationary pivots
-	var BC = 360/180; //length of right bar
-	var CD = 260/180; //length of middle bar
-	var BD = Math.sqrt(AD*AD + AB*AB - 2*AD*AB*Math.cos(t));
-	var C = Math.acos((BC*BC + CD*CD - BD*BD)/(2*BC*CD));
-	var BDC = Math.asin(BC * Math.sin(C) / BD);
-	var ADB = Math.asin(AB * Math.sin(t) / BD);
-	var D = BDC + ADB;
-	var ABD = Math.asin(CD * Math.sin(C) / BD);
-	var BCD = Math.asin(AD * Math.sin(t) / BD);
-	var B = ABD + BCD;
-	
-	t = -t; //to make it go clockwise, like example
-	
+
 	//DRAW FIRST BAR
 	this.save();
 		this.translate(pivot_left);
-		this.rotate(t);
-		this.rod($V([0,0]), $V([0,1]), 0.25);
-	
-	//DRAW SECOND BAR
-	/*	this.save();
-			this.translate($V([0,1]));
-			this.rotate(t*-1); //undo the original t rotation
-			this.rotate(D);    //rotate by D only
-			this.rod($V([0,0]), $V([260/180,0]), 0.25);
-		this.restore();*/
-	this.restore();
-	
-	//DRAW THIRD BAR
-	this.save();
-		this.translate(pivot_right);
-		//this.rotate(45*Math.PI/64); //45/64
-		this.rotate((Math.PI/4-B));
-		this.rod($V([0,0]), $V([0,2]), 0.25);
-	this.restore();
+		this.rotate(A);
+		this.rod($V([0,0]), $V([AD,0]), 0.25);
 
+	//DRAW SECOND BAR
+		this.translate($V([1,0]));
+		//this.rotate(A*-1); //"undo" the original A rotation
+		this.rotate(Math.PI+D);    //rotate by D only
+		this.rod($V([0,0]), $V([CD,0]), 0.25);
+	this.restore();
+	
+
+	//DRAW THIRD BAR
+	this.translate(pivot_right);
+	this.rotate(Math.PI-B);
+	this.rod($V([0,0]), $V([BC,0]), 0.25);
 });
 </script>
 <p><button onclick="animPD.toggleAnim();">Toggle animation</button><p>
