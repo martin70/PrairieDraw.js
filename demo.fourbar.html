@@ -20,54 +20,61 @@ animPD = new PrairieDrawAnim("fourbar", function(t) {
 	this.setUnits(6, 6);
 	this.setProp("arrowLineWidthPx",2);
 	
-
+	//DRAW GROUND
 	var G = $V([0, -0.5]); //ground
 	this.ground(G, $V([0, 1]), 10);
 	
-	var pivot_left = $V([-1.5, 0]);
-	var pivot_right = $V([1.5, 0]);
-	
+	//DRAW PIVOTS
+	var pivot_left = $V([-1*400/360, 0]);
+	var pivot_right = $V([400/360, 0]);
 	this.pivot($V([pivot_left.e(1), -0.5]), pivot_left, 0.5);
 	this.pivot($V([pivot_right.e(1), -0.5]), pivot_right, 0.5);
 	
-	var AD = 1;
-	var AB = 3;
-	var BC = 1;
-	var CD = 3;
+	//LENGTH AND ANGLE CALCULATIONS
+	var AD = 180/180; //length of left bar
+	var AB = 400/180; //distance between two stationary pivots
+	var BC = 360/180; //length of right bar
+	var CD = 260/180; //length of middle bar
 	var BD = Math.sqrt(AD*AD + AB*AB - 2*AD*AB*Math.cos(t));
 	var C = Math.acos((BC*BC + CD*CD - BD*BD)/(2*BC*CD));
 	var BDC = Math.asin(BC * Math.sin(C) / BD);
 	var ADB = Math.asin(AB * Math.sin(t) / BD);
 	var D = BDC + ADB;
+	var ABD = Math.asin(CD * Math.sin(C) / BD);
+	var BCD = Math.asin(AD * Math.sin(t) / BD);
+	var B = ABD + BCD;
 	
+	//DRAW FIRST BAR
 	this.save();
 		this.translate(pivot_left);
 		this.rotate(t);
 		this.rod($V([0,0]), $V([0,1]), 0.25);
 	
+	//DRAW SECOND BAR
 		this.save();
 			this.translate($V([0,1]));
-			this.rotate(180-D);
-			this.rotate(t*-1);
-			this.rod($V([0,0]), $V([3,0]), 0.25);
+			this.rotate(t*-1); //undo the original t rotation
+			this.rotate(D);    //rotate by D only
+			this.rod($V([0,0]), $V([260/180,0]), 0.25);
 		this.restore();
 	this.restore();
 	
-	this.rotate(t*D);
-	//this.rotate(D);
+	//DRAW THIRD BAR
 	this.save();
 		this.translate(pivot_right);
-		this.rotate(C);
-		this.rod($V([0,0]), $V([0,1]), 0.25);
+		//this.rotate(45*Math.PI/64); //45/64
+		this.rotate(180-B);
+		this.rod($V([0,0]), $V([0,2]), 0.25);
 	this.restore();
 	
-	//this.rotate(t);
-	//this.rod(pivot_left, $V([-1.5,1]), 0.25);
-	//this.rotate(D);
-	//this.rod($V([-1.5,1]), $V([1.5,1]), 0.25);
-	//this.rotate(C);
-	//this.rod($V([1.5,1]), pivot_right, 0.25);
-	
+	//outline
+	/*this.rotate(t);
+	this.rod(pivot_left, $V([-1.5,1]), 0.25);
+	this.rotate(D);
+	this.rod($V([-1.5,1]), $V([1.5,1]), 0.25);
+	this.rotate(B);
+	this.rod($V([1.5,1]), pivot_right, 0.25);
+	*/
 
 });
 </script>

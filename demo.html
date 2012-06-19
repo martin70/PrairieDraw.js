@@ -18,14 +18,19 @@ canvas {
 animPD = new PrairieDrawAnim("anim", function(t) {
     this.setUnits(6, 6);
     var O = $V([0,0]);
-	var P = $V([2,2]);
+	var P = $V([0,1]);
     //var P = $V([2 * Math.cos(t), 2 * Math.sin(t)]);
 	
-	this.translate($V([-1,-1]));
 	this.rotate(t);
 	this.arrow(O, P);
-	this.translate($V([1,1]));
 	
+	this.save();
+		this.translate($V([0,1]));
+		
+		this.rotate(t*-1 + t);
+		//this.rotate(t);
+		this.arrow(O, P);
+	this.restore();
     
 });
 </script>
