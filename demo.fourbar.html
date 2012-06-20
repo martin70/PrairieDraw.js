@@ -74,12 +74,53 @@ animPD = new PrairieDrawAnim("fourbar", function(t) {
 	this.point($V([BC,0]));
 	this.restore();
 	
-	if (this.getOption("velocity")) {
+	//VELOCITY AND ACCELERATION
+	var computePosLeft = function(t) {
+        var dataNow = {};
+        dataNow.O = $V([0, 0]);
+        dataNow.P = this.vector2DAtAngle(t);
+        return dataNow;
+    }
+	var dataLeft = this.numDiff(computePosLeft.bind(this), t);
 	
+	var computePosRight = function(t) {
+	A = t*omega; //"theta"
+	BD = Math.sqrt(AD*AD + AB*AB - 2*AD*AB*Math.cos(A));
+	C = Math.acos((BC*BC + CD*CD - BD*BD)/(2*BC*CD));
+	ABD = Math.asin(CD * Math.sin(C) / BD);
+	DBC = Math.asin(AD * Math.sin(A) / BD);
+	B = ABD + DBC;
+	D = Math.PI - B - C;
+	
+        var dataNow = {};
+        dataNow.O = $V([0, 0]);
+        dataNow.P = this.vector2DAtAngle(C+D);
+		return dataNow;
+    }
+	var dataRight = this.numDiff(computePosRight.bind(this), t);
+	
+	if (this.getOption("velocity")) {
+		this.save();
+			this.translate(pivot_left);
+			this.arrow(dataLeft.P, dataLeft.P.add(dataLeft.diff.P), "velocity");
+		this.restore();
+		
+		this.save();
+			this.translate($V([AD,0]));
+			this.arrow(dataRight.P, dataRight.P.add(dataRight.diff.P), "velocity");
+		this.restore();
 	}
 	
 	if (this.getOption("acceleration")) {
-	
+		this.save();
+			this.translate(pivot_left);
+			this.arrow(dataLeft.P, dataLeft.P.add(dataLeft.ddiff.P), "acceleration");
+		this.restore();
+		
+		this.save();
+			this.translate($V([AD,0]));
+			this.arrow(dataRight.P, dataRight.P.add(dataRight.ddiff.P), "acceleration");
+		this.restore();
 	}
 	
 	//DISPLAY GRASHOF'S LAW
