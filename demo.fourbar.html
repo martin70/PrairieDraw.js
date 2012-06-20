@@ -26,6 +26,8 @@ animPD = new PrairieDrawAnim("fourbar", function(t) {
 	//SET UP PRAIRIEDRAW
 	this.setUnits(6, 6);
 	this.setProp("arrowLineWidthPx",2);
+	this.addOption("velocity",false);
+	this.addOption("acceleration",false);
 	
 	//LENGTH AND ANGLE CALCULATIONS
 	var A = t*omega; //"theta"
@@ -72,6 +74,15 @@ animPD = new PrairieDrawAnim("fourbar", function(t) {
 	this.point($V([BC,0]));
 	this.restore();
 	
+	if (this.getOption("velocity")) {
+	
+	}
+	
+	if (this.getOption("acceleration")) {
+	
+	}
+	
+	//DISPLAY GRASHOF'S LAW
 	this.text($V([0,-2.5]), $V([0,0]), grashofsLaw(AB, AD, BC, CD));
 });
 
@@ -90,18 +101,26 @@ function setOmega(value){
 
 function setBar1(value){
 	length_bar1 = document.getElementById('bar1slider').value;
+	animPD.startAnim();
+	animPD.stopAnim();
 }
 
 function setBar2(value){
 	length_bar2 = document.getElementById('bar2slider').value;
+	animPD.startAnim();
+	animPD.stopAnim();
 }
 
 function setBar3(value){
 	length_bar3 = document.getElementById('bar3slider').value;
+	animPD.startAnim();
+	animPD.stopAnim();
 }
 
 function setBase(value){
 	length_base = document.getElementById('baseslider').value;
+	animPD.startAnim();
+	animPD.stopAnim();
 }
 
 </script>
@@ -111,7 +130,9 @@ Left: <input id="bar1slider" type="range" min="0" max="4" value="1" step="0.2" o
 Middle: <input id="bar2slider" type="range" min="0" max="4" value="26/18" step="0.2" onchange=setBar2()>
 Right: <input id="bar3slider" type="range" min="0" max="4" value="2" step="0.2" onchange=setBar3()><p>
 Base: <input id="baseslider" type="range" min="0" max="4" value="40/18" step="0.2" onchange=setBase()><p>
-<button onclick="animPD.toggleAnim();">Toggle animation</button>
+<button onclick="animPD.toggleAnim();">Toggle animation</button> <p>
+<button onclick="animPD.toggleOption('velocity');">Toggle Velocity</button>
+<button onclick="animPD.toggleOption('acceleration');">Toggle Acceleration</button>
 <p>
 
 
