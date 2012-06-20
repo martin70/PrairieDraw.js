@@ -24,6 +24,7 @@ var length_base = 40/18;
 var time = 0;
 
 animPD = new PrairieDrawAnim("fourbar", function(t) {
+//t+=Math.PI+2.3;
 	time = t;
 	//SET UP PRAIRIEDRAW
 	this.setUnits(6, 6);
@@ -109,9 +110,11 @@ animPD = new PrairieDrawAnim("fourbar", function(t) {
 			this.arrow(dataLeft.P, dataLeft.P.add(dataLeft.diff.P), "velocity");
 		this.restore();
 		
+		//this part doesn't appear to be right for some reason
 		this.save();
 			this.translate(pivot_right);
-			this.arrow(dataRight.P, dataRight.P.add(dataRight.diff.P), "velocity");
+			if(dataRight.diff.P.e(1) > 0.02 || dataRight.diff.P.e(1) < -0.02) //hack to keep it from jumping at 0
+				this.arrow(dataRight.P, dataRight.P.add(dataRight.diff.P), "velocity");
 		this.restore();
 	}
 	
