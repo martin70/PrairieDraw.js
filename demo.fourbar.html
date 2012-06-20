@@ -79,51 +79,42 @@ animPD = new PrairieDrawAnim("fourbar", function(t) {
 	
 	//VELOCITY AND ACCELERATION
 	var computePosLeft = function(t) {
+		A = t*omega;
         var dataNow = {};
         dataNow.O = $V([0, 0]);
-        dataNow.P = this.vector2DAtAngle(t);
+        dataNow.P = this.vector2DAtAngle(A).x(AD);
         return dataNow;
     }
 	var dataLeft = this.numDiff(computePosLeft.bind(this), t);
 	
 	var computePosRight = function(t) {
-	A = t*omega; //"theta"
-	BD = Math.sqrt(AD*AD + AB*AB - 2*AD*AB*Math.cos(A));
-	C = Math.acos((BC*BC + CD*CD - BD*BD)/(2*BC*CD));
-	ABD = Math.asin(CD * Math.sin(C) / BD);
-	DBC = Math.asin(AD * Math.sin(A) / BD);
-	B = ABD + DBC;
-	D = Math.PI - B - C;
+		//have to recompute these with the new t
+		A = t*omega;
+		C = Math.acos((BC*BC + CD*CD - (AD*AD + AB*AB - 2*AD*AB*Math.cos(A)))/(2*BC*CD));
+		B = Math.asin(CD * Math.sin(C) / BD) + Math.asin(AD * Math.sin(A) / BD);
+		D = Math.PI - B - C;
 	
         var dataNow = {};
-        dataNow.O = $V([0, 0]);
-        dataNow.P = this.vector2DAtAngle(C+D);
+        dataNow.O = $V([0,0]);
+        dataNow.P = (this.vector2DAtAngle(C+D)).x(BC);
 		return dataNow;
     }
 	var dataRight = this.numDiff(computePosRight.bind(this), t);
 	
 	if (this.getOption("velocity")) {
-		this.save();
-			this.translate(pivot_left);
-			this.arrow(dataLeft.P, dataLeft.P.add(dataLeft.diff.P), "velocity");
-		this.restore();
+		this.translate(pivot_left);
+		this.arrow(dataLeft.P, dataLeft.P.add(dataLeft.diff.P), "velocity");
 		
-		this.save();
-			this.translate($V([AD,0]));
-			this.arrow(dataRight.P, dataRight.P.add(dataRight.diff.P), "velocity");
-		this.restore();
+		this.translate(pivot_right.add(pivot_right)); //adding this twice means we don't have to save/restore, which prevents animation from stopping
+		this.arrow(dataRight.P, dataRight.P.add(dataRight.diff.P), "velocity");
 	}
 	
 	if (this.getOption("acceleration")) {
-		this.save();
-			this.translate(pivot_left);
-			this.arrow(dataLeft.P, dataLeft.P.add(dataLeft.ddiff.P), "acceleration");
-		this.restore();
+		this.translate(pivot_left.add(pivot_left));
+		this.arrow(dataLeft.P, dataLeft.P.add(dataLeft.ddiff.P), "acceleration");
 		
-		this.save();
-			this.translate($V([AD,0]));
-			this.arrow(dataRight.P, dataRight.P.add(dataRight.ddiff.P), "acceleration");
-		this.restore();
+		this.translate(pivot_right.add(pivot_right));
+		this.arrow(dataRight.P, dataRight.P.add(dataRight.ddiff.P), "acceleration");
 	}
 	
 });
