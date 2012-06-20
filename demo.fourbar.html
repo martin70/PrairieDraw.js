@@ -21,8 +21,10 @@ var length_bar1 = 1;
 var length_bar2 = 26/18;
 var length_bar3 = 2;
 var length_base = 40/18;
+var time = 0;
 
 animPD = new PrairieDrawAnim("fourbar", function(t) {
+	time = t;
 	//SET UP PRAIRIEDRAW
 	this.setUnits(6, 6);
 	this.setProp("arrowLineWidthPx",2);
@@ -102,19 +104,27 @@ animPD = new PrairieDrawAnim("fourbar", function(t) {
 	var dataRight = this.numDiff(computePosRight.bind(this), t);
 	
 	if (this.getOption("velocity")) {
-		this.translate(pivot_left);
-		this.arrow(dataLeft.P, dataLeft.P.add(dataLeft.diff.P), "velocity");
+		this.save();
+			this.translate(pivot_left);
+			this.arrow(dataLeft.P, dataLeft.P.add(dataLeft.diff.P), "velocity");
+		this.restore();
 		
-		this.translate(pivot_right.add(pivot_right)); //adding this twice means we don't have to save/restore, which prevents animation from stopping
-		this.arrow(dataRight.P, dataRight.P.add(dataRight.diff.P), "velocity");
+		this.save();
+			this.translate(pivot_right);
+			this.arrow(dataRight.P, dataRight.P.add(dataRight.diff.P), "velocity");
+		this.restore();
 	}
 	
 	if (this.getOption("acceleration")) {
-		this.translate(pivot_left.add(pivot_left));
-		this.arrow(dataLeft.P, dataLeft.P.add(dataLeft.ddiff.P), "acceleration");
+		this.save();
+			this.translate(pivot_left);
+			this.arrow(dataLeft.P, dataLeft.P.add(dataLeft.ddiff.P), "acceleration");
+		this.restore();
 		
-		this.translate(pivot_right.add(pivot_right));
-		this.arrow(dataRight.P, dataRight.P.add(dataRight.ddiff.P), "acceleration");
+		this.save();
+			this.translate(pivot_right);
+			this.arrow(dataRight.P, dataRight.P.add(dataRight.ddiff.P), "acceleration");
+		this.restore();
 	}
 	
 });
@@ -133,36 +143,56 @@ function setOmega(value){
 }
 
 function setBar1(value){
-	length_bar1 = document.getElementById('bar1slider').value;
-	animPD.startAnim();
-	animPD.stopAnim();
+	if(time==0){
+		animPD.startAnim();
+		length_bar1 = document.getElementById('bar1slider').value;
+		animPD.stopAnim();
+	}
+	else{
+		length_bar1 = document.getElementById('bar1slider').value;
+	}
 }
 
 function setBar2(value){
-	length_bar2 = document.getElementById('bar2slider').value;
-	animPD.startAnim();
-	animPD.stopAnim();
+	if(time==0){
+		animPD.startAnim();
+		length_bar2 = document.getElementById('bar2slider').value;
+		animPD.stopAnim();
+	}
+	else{
+		length_bar1 = document.getElementById('bar2slider').value;
+	}
 }
 
 function setBar3(value){
-	length_bar3 = document.getElementById('bar3slider').value;
-	animPD.startAnim();
-	animPD.stopAnim();
+	if(time==0){
+		animPD.startAnim();
+		length_bar3 = document.getElementById('bar3slider').value;
+		animPD.stopAnim();
+	}
+	else{
+		length_bar3 = document.getElementById('bar3slider').value;
+	}
 }
 
 function setBase(value){
-	length_base = document.getElementById('baseslider').value;
-	animPD.startAnim();
-	animPD.stopAnim();
+	if(time==0){
+		animPD.startAnim();
+		length_base = document.getElementById('baseslider').value;
+		animPD.stopAnim();
+	}
+	else{
+		length_base = document.getElementById('baseslider').value;
+	}
 }
 
 </script>
 <p>
-Omega: <input id="omegaslider" type="range" min="-3" max="3" value="0" step="0.2" onchange=setOmega()><p>
-Left: <input id="bar1slider" type="range" min="0" max="4" value="1" step="0.2" onchange=setBar1()>
-Middle: <input id="bar2slider" type="range" min="0" max="4" value="26/18" step="0.2" onchange=setBar2()>
-Right: <input id="bar3slider" type="range" min="0" max="4" value="2" step="0.2" onchange=setBar3()><p>
-Base: <input id="baseslider" type="range" min="0" max="4" value="40/18" step="0.2" onchange=setBase()><p>
+Omega: <input id="omegaslider" type="range" min="-3" max="3" value="0" step="0.01" onchange=setOmega()><p>
+Left: <input id="bar1slider" type="range" min="0" max="4" value="1" step="0.01" onchange=setBar1()>
+Middle: <input id="bar2slider" type="range" min="0" max="4" value="26/18" step="0.01" onchange=setBar2()>
+Right: <input id="bar3slider" type="range" min="0" max="4" value="2" step="0.01" onchange=setBar3()><p>
+Base: <input id="baseslider" type="range" min="0" max="4" value="40/18" step="0.01" onchange=setBase()><p>
 <button onclick="animPD.toggleAnim();">Toggle animation</button> <p>
 <button onclick="animPD.toggleOption('velocity');">Toggle Velocity</button>
 <button onclick="animPD.toggleOption('acceleration');">Toggle Acceleration</button>
