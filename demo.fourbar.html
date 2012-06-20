@@ -71,8 +71,11 @@ animPD = new PrairieDrawAnim("fourbar", function(t) {
 	this.rotate(Math.PI+C);
 	this.rod($V([0,0]), $V([BC,0]), 0.25);
 	this.point($V([0,0]));
-	this.point($V([BC,0]));
 	this.restore();
+	this.point($V([pivot_right.e(1), 0]));
+	
+	//DISPLAY GRASHOF'S LAW
+	this.text($V([0,-2.5]), $V([0,0]), grashofsLaw(AB, AD, BC, CD));
 	
 	//VELOCITY AND ACCELERATION
 	var computePosLeft = function(t) {
@@ -123,8 +126,6 @@ animPD = new PrairieDrawAnim("fourbar", function(t) {
 		this.restore();
 	}
 	
-	//DISPLAY GRASHOF'S LAW
-	this.text($V([0,-2.5]), $V([0,0]), grashofsLaw(AB, AD, BC, CD));
 });
 
 function grashofsLaw(bar1, bar2, bar3, bar4){
