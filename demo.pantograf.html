@@ -17,39 +17,55 @@ canvas {
 <canvas id="pantograph" width="400" height="400"></canvas>
 <script type="application/javascript">
 pantsPD = new PrairieDrawAnim("pantograph", function(t) {
-	this.setUnits(6, 6);
+	this.setUnits(9, 6);
 	this.setProp("arrowLineWidthPx",2);
-	//this.translate($V([-2,-1]));
+	this.addOption("circles",false);
+	this.addOption("line",false);
 	
 	var shape = $V([Math.cos(t), Math.sin(t)]); //circle, can be changed to anything
 	
-	this.line($V([-6,-6]), $V([6,6]));
-	
 	var O = $V([0,0]);
-	//var P = $V([1,2]);
-	var P = $V([2*Math.cos(t), 2*Math.sin(t)]);
+	P = $V([2,0]);
+	if (this.getOption("line")==true){
+		P = $V([2*Math.cos(t), 2*Math.sin(t)]);
+		this.line($V([-2.75,-2.75]), $V([2.75,2.75]));
+	}
+	else if (this.getOption("circles")==true){
+		P = $V([2,0]);
+		this.setProp("arrowLineWidthPx",1);
+		this.circle($V([1,0]), 1);
+		this.circle($V([2,0]), 2);
+	}
+	var shape = $V([2*Math.sin(t), 2*Math.cos(t)]);
 	
 	//big bar left
 	this.rod(O, P, 0.25);
+	this.point(O);
 	
 	//big bar right
 	this.save();
-	this.translate(P);
-	this.rod(O, $V([P.e(2), P.e(1)]), 0.25);
+		this.translate(P);
+		this.rod(O, shape, 0.25);
+		this.point(O);
+		this.point(shape);
 	this.restore();
 	
-	this.translate(P.x(1/2));
 	//little bar left
-	this.rod(O, $V([P.e(2), P.e(1)]).x(1/2), 0.15);
+	this.translate(P.x(1/2));
+	this.rod(O, shape.x(1/2), 0.15);
+	this.point(O);
 	
 	//little bar right
-	this.translate($V([P.e(2), P.e(1)]).x(1/2));
+	this.translate(shape.x(1/2));
 	this.rod(O, P.x(1/2), 0.15);
+	this.point(O);
+	this.point(P.x(1/2));
 	
 });
 </script>
 <p>
-<button onclick="pantsPD.toggleAnim();">Toggle Animation</button>
+<button onclick="pantsPD.toggleOption('line'); pantsPD.toggleAnim();">Draw a Line</button>
+<button onclick="pantsPD.toggleOption('circles'); pantsPD.toggleAnim();">Draw Circles</button>
 <p>
 
 </body>

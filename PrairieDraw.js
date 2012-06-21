@@ -532,7 +532,30 @@ PrairieDraw.prototype.arrow = function(startDw, endDw, type) {
 }
 
 /*****************************************************************************/
+/** Draw a circle
+	@param {Vector} center The center of the circle
+	@param {number} radius The radius of the circle
+	@param {string} type Optional type of the circle
+*/
+PrairieDraw.prototype.circle = function(center, radius, type){
+	this.save();
+	this._ctx.lineWidth = this._props.arrowLineWidthPx;
+    this._setLineStyles(type);
+	
+	// convert to Px coordinates
+	var startOffsetDw = this.vector2DAtAngle(0).x(radius);
+    var centerPx = this.pos2Px(center);
+    var startOffsetPx = this.vec2Px(startOffsetDw);
+    var radiusPx = startOffsetPx.modulus();
+	
+	this._ctx.beginPath();
+	this._ctx.arc(centerPx.e(1),centerPx.e(2), radiusPx, 0,2*Math.PI);
+	this._ctx.stroke();
+	
+	this.restore();
+}
 
+/*****************************************************************************/
 /** Draw a circle arrow.
 
     @param {Vector} posDw The center of the circle arrow.
