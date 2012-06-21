@@ -1,3 +1,4 @@
+
 /*****************************************************************************/
 
 /** Creates a PrairieDraw object.
@@ -548,7 +549,7 @@ PrairieDraw.prototype.circle = function(center, radius, type){
     var radiusPx = startOffsetPx.modulus();
 	
 	this._ctx.beginPath();
-	this._ctx.arc(centerPx.e(1),centerPx.e(2), radiusPx, 0,2*Math.PI);
+	this._ctx.arc(centerPx.e(1),centerPx.e(2), 0, 0,2*Math.PI);
 	this._ctx.stroke();
 	
 	this.restore();
