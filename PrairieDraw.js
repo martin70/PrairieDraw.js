@@ -554,6 +554,23 @@ PrairieDraw.prototype.circle = function(center, radius, type){
 	
 	this.restore();
 }
+/** Draw a polygon
+	@param {Vector array} vertices The vertices of the polygon
+*/
+PrairieDraw.prototype.polygon = function(vertices, type){
+	this.save();
+	this._ctx.lineWidth = this._props.arrowLineWidthPx;
+    this._setLineStyles(type);
+
+	var i=0;
+	for(i=0; i<vertices.length-1; i++){
+		this.line(vertices[i], vertices[i+1]);
+	}
+	this.line(vertices[(vertices.length-1)], vertices[0]);
+	
+	this.restore();
+}
+
 
 /*****************************************************************************/
 /** Draw a circle arrow.

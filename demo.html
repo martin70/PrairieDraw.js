@@ -17,23 +17,18 @@ canvas {
 <script type="application/javascript">
 animPD = new PrairieDrawAnim("anim", function(t) {
     this.setUnits(6, 6);
+	this.setProp("arrowLineWidthPx",2);
+	
     var O = $V([0,0]);
 	var P = $V([0,1]);
-    //var P = $V([2 * Math.cos(t), 2 * Math.sin(t)]);
-	
-	this.rotate(t);
-	this.arrow(O, P);
-	
-	this.save();
-		this.translate($V([0,1]));
-		
-		this.rotate(t*-1 + t);
-		//this.rotate(t);
-		this.arrow(O, P);
-	this.restore();
+	var Q = $V([1,0]);
+	var L = $V([1,3]);
+	var M = $V([2,-2]);
+	var vecs = [O, P, L, M, Q];
     
+	this.polygon(vecs);
 });
 </script>
-<p><button onclick="animPD.toggleAnim();">Toggle animation</button><p>
+<p><p>
 
 </body>
