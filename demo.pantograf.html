@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Pantograf Example</title>
+<script src="sylvester.js"></script>
+<script src="PrairieDraw.js"></script>
+<style>
+canvas {
+    border: 1px solid black;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="pantograph" width="400" height="400"></canvas>
+<script type="application/javascript">
+pantsPD = new PrairieDrawAnim("pantograph", function(t) {
+	this.setUnits(6, 6);
+	this.setProp("arrowLineWidthPx",2);
+	//this.translate($V([-2,-1]));
+	
+	var shape = $V([Math.cos(t), Math.sin(t)]); //circle, can be changed to anything
+	
+	this.line($V([-6,-6]), $V([6,6]));
+	
+	var O = $V([0,0]);
+	//var P = $V([1,2]);
+	var P = $V([2*Math.cos(t), 2*Math.sin(t)]);
+	
+	//big bar left
+	this.rod(O, P, 0.25);
+	
+	//big bar right
+	this.save();
+	this.translate(P);
+	this.rod(O, $V([P.e(2), P.e(1)]), 0.25);
+	this.restore();
+	
+	this.translate(P.x(1/2));
+	//little bar left
+	this.rod(O, $V([P.e(2), P.e(1)]).x(1/2), 0.15);
+	
+	//little bar right
+	this.translate($V([P.e(2), P.e(1)]).x(1/2));
+	this.rod(O, P.x(1/2), 0.15);
+	
+});
+</script>
+<p>
+<button onclick="pantsPD.toggleAnim();">Toggle Animation</button>
+<p>
+
+</body>
