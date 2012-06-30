@@ -305,13 +305,25 @@ PrairieDraw.prototype.restore = function() {
 
 /*****************************************************************************/
 
-/** Reset the canvas.
+/** Reset the canvas image and drawing context.
 */
-PrairieDraw.prototype.reset = function() {
+PrairieDraw.prototype.resetDrawing = function() {
     while (this._propStack.length > 0) {
         this.restore();
     }
     this._ctx.clearRect(0, 0, this._width, this._height);
+}
+
+/** Reset everything to the intial state.
+*/
+PrairieDraw.prototype.reset = function() {
+    this._options = {};
+    this.redraw();
+}
+
+/** Stop all action and computation.
+*/
+PrairieDraw.prototype.stop = function() {
 }
 
 /*****************************************************************************/
@@ -323,7 +335,7 @@ PrairieDraw.prototype.reset = function() {
     @param {bool} preserveCanvasSize If true, do not resize the canvas to match the coordinate ratio.
 */
 PrairieDraw.prototype.setUnits = function(xSize, ySize, preserveCanvasSize) {
-    this.reset();
+    this.resetDrawing();
     this.save();
     var xScale = this._width / xSize;
     var yScale = this._height / ySize
@@ -920,6 +932,20 @@ PrairieDrawAnim.prototype.resetTime = function() {
     this._drawTime = 0;
     this._startFrame = true;
     this.redraw();
+}
+
+/** Reset everything to the intial state.
+*/
+PrairieDrawAnim.prototype.reset = function() {
+    this._options = {};
+    this.stopAnim();
+    this.resetTime();
+}
+
+/** Stop all action and computation.
+*/
+PrairieDrawAnim.prototype.stop = function() {
+    this.stopAnim();
 }
 
 /*****************************************************************************/
