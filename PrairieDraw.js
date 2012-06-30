@@ -842,17 +842,15 @@ PrairieDraw.prototype.text = function(posDw, anchor, text) {
         }
     } else {
         var align, baseline;
-        switch (anchor.e(1)) {
+        switch (this.sign(anchor.e(1))) {
         case -1: align = "left"; break;
         case  0: align = "center"; break;
         case  1: align = "right"; break;
-        default: throw new Error("PrairieDraw: non-tex text must have x anchor of -1, 0, or 1");
         }
-        switch (anchor.e(2)) {
+        switch (this.sign(anchor.e(2))) {
         case -1: baseline = "bottom"; break;
         case  0: baseline = "middle"; break;
         case  1: baseline = "top"; break;
-        default: throw new Error("PrairieDraw: non-tex text must have y anchor of -1, 0, or 1");
         }
         this._ctx.save();
         this._ctx.textAlign = align;
