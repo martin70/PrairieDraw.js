@@ -95,6 +95,10 @@ PrairieDraw.prototype._initProps = function() {
 
 /*****************************************************************************/
 
+/** The golden ratio.
+*/
+PrairieDraw.prototype.goldenRatio = (1 + Math.sqrt(5)) / 2;
+
 /** Scale the coordinate system.
 
     @param {Vector} factor Scale factors.
