@@ -17,6 +17,8 @@ function PrairieDraw(canvas, drawFcn) {
         } else {
             throw new Error("PrairieDraw: unknown object type for constructor")
         }
+        this._canvas.prairieDraw = this;
+
         /** @private */ this._ctx = this._canvas.getContext('2d');
         /** @private */ this._width = this._canvas.width;
         /** @private */ this._height = this._canvas.height;
@@ -809,11 +811,9 @@ function PrairieDrawAnim(canvas, drawFcn) {
     this._drawTime = 0;
     this._running = false;
     if (drawFcn) {
-        this.draw = drawFcn;
+        this.draw = drawFcn.bind(this);
     }
     this.draw(0);
-
-    this._canvas.animator = this;
 }
 PrairieDrawAnim.prototype = new PrairieDraw;
 
