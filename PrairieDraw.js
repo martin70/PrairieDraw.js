@@ -408,6 +408,34 @@ PrairieDraw.prototype.linearInterp = function(x0, x1, alpha) {
     return (1 - alpha) * x0 + alpha * x1;
 }
 
+/** Linearly interpolate between two states (objects with scalar members).
+
+    @param {Object} s0 The first state.
+    @param {Object} s1 The second state.
+    @param {number} alpha The proportion of s1 versus s0 (between 0 and 1).
+    @return {Object} The state (1 - alpha) * s0 + alpha * s1.
+*/
+PrairieDraw.prototype.linearInterpState = function(s0, s1, alpha) {
+    var newState = {};
+    for (e in s0) {
+        newState[e] = this.linearInterp(s0[e], s1[e], alpha);
+    }
+    return newState;
+}
+
+/** Duplicate a state (object with scalar membes).
+
+    @param {Object} state The state to duplicate.
+    @return {number} A copy of the state.
+*/
+PrairieDraw.prototype.dupState = function(state) {
+    var newState = {};
+    for (e in state) {
+        newState[e] = state[e];
+    }
+    return newState;
+}
+
 /*****************************************************************************/
 
 /** Draw a point.
@@ -959,6 +987,7 @@ function PrairieDrawAnim(canvas, drawFcn) {
     PrairieDraw.call(this, canvas, null);
     this._drawTime = 0;
     this._running = false;
+    this._sequences = {};
     if (drawFcn) {
         this.draw = drawFcn.bind(this);
     }
@@ -1054,6 +1083,7 @@ PrairieDrawAnim.prototype.resetTime = function() {
 */
 PrairieDrawAnim.prototype.reset = function() {
     this._options = {};
+    this._sequences = {};
     this.stopAnim();
     this.resetTime();
 }
@@ -1113,6 +1143,70 @@ PrairieDrawAnim.prototype.sequence = function(states, transTimes, holdTimes, t) 
         }
         lastTotalTime = totalTime;
     }
+}
+
+/*****************************************************************************/
+
+/** Interpolate between different states in a sequence under external prompting.
+
+    @param {string} name Name of this transition sequence.
+    @param {Array} states An array of objects, each specifying scalar or vector state values.
+    @param {Array} transTimes Transition times. transTimes[i] is the transition time from states[i] to states[i+1].
+    @param {Array} t Current animation time.
+    @return Object with state variables set to current values, as well as t being the time within the current transition (0 if holding), index being the current state index (or the next state if transitioning), and alpha being the proportion of the current transition (0 if holding).
+*/
+PrairieDrawAnim.prototype.controlSequence = function(name, states, transTimes, t) {
+    if (!(name in this._sequences)) {
+        this._sequences[name] = {index: 0, inTransition: false, startTransition: false};
+    }
+    var seq = this._sequences[name];
+    var state;
+    var transTime = 0;
+    if (seq.startTransition) {
+        seq.startTransition = false;
+        seq.inTransition = true;
+        seq.startTime = t;
+    }
+    if (seq.inTransition) {
+        transTime = t - seq.startTime;
+    }
+    if ((seq.inTransition) && (transTime >= transTimes[seq.index])) {
+        seq.inTransition = false;
+        seq.index = (seq.index + 1) % states.length;
+        delete seq.startTime;
+    }
+    if (!seq.inTransition) {
+        state = this.dupState(states[seq.index]);
+        state.index = seq.index;
+        state.t = 0;
+        state.alpha = 0;
+        state.inTransition = false;
+        return state;
+    }
+    var alpha = transTime / transTimes[seq.index];
+    var nextIndex = (seq.index + 1) % states.length;
+    state = this.linearInterpState(states[seq.index], states[nextIndex], alpha);
+    state.t = transTime;
+    state.index = seq.index;
+    state.alpha = alpha;
+    state.inTransition = true;
+    return state;
+}
+
+/** Start the next transition for the named sequence.
+
+    @param {string} name Name of the sequence to transition.
+*/
+PrairieDrawAnim.prototype.stepSequence = function(name) {
+    if (!(name in this._sequences)) {
+        throw new Error("PrairieDraw: unknown sequence: " + name);
+    }
+    var seq = this._sequences[name];
+    if (seq.inTransition) {
+        return;
+    }
+    seq.startTransition = true;
+    this.startAnim();
 }
 
 /*****************************************************************************/

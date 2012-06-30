@@ -625,6 +625,16 @@ seqPD = new PrairieDrawAnim("seq", function(t) {
 </pre>
 </td></tr></table>
 
+<p>There is also an externally controllable variant of sequence
+animation, accessed by <code>state = this.controlSequence(name,
+states, transTimes, t)</code>. This requires a <code>name</code> (a
+string) but does not have <code>holdTimes</code>. Instead of holding
+for a given time when it reaches a new state, a controlled sequence
+holds indefinitely until <code>this.stepSequence(name)</code> is
+called to begin the transition to the next state. Controlled sequences
+require a <code>name</code> so that the correct sequence can be
+stepped.</p>
+
 <h2>Numerical differentiation</h2>
 
 <p>Numerical differentiation is provided by the <code>data =
