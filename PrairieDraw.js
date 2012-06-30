@@ -990,9 +990,11 @@ PrairieDrawAnim.prototype.draw = function(t) {
 /** Start the animation.
 */
 PrairieDrawAnim.prototype.startAnim = function() {
-    this._running = true;
-    this._startFrame = true;
-    this._requestAnimationFrame.call(window, this._callback.bind(this));
+    if (!this._running) {
+        this._running = true;
+        this._startFrame = true;
+        this._requestAnimationFrame.call(window, this._callback.bind(this));
+    }
 }
 
 /** Stop the animation.
