@@ -1062,7 +1062,11 @@ PrairieDrawAnim.prototype.stop = function() {
 
 /** Interpolate between different states in a sequence.
 
-    @param {Array}
+    @param {Array} states An array of objects, each specifying scalar or vector state values.
+    @param {Array} transTimes Transition times. transTimes[i] is the transition time from states[i] to states[i+1].
+    @param {Array} holdTimes Hold times for the corresponding state.
+    @param {Array} t Current time.
+    @return Object with state variables set to current values, as well as t being the time within the current transition (0 if holding), index being the current state index (or the next state if transitioning), and alpha being the proportion of the current transition (0 if holding).
 */
 PrairieDrawAnim.prototype.sequence = function(states, transTimes, holdTimes, t) {
     var totalTime = 0;
@@ -1095,6 +1099,7 @@ PrairieDrawAnim.prototype.sequence = function(states, transTimes, holdTimes, t) 
             // holding at i+1
             state.t = 0;
             state.index = ip;
+            state.alpha = 0;
             for (e in states[i]) {
                 state[e] = states[ip][e];
             }
