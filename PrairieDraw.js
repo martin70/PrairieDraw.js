@@ -454,6 +454,7 @@ PrairieDraw.prototype.line = function(startDw, endDw, type) {
     var endPx = this.pos2Px(endDw);
     this._ctx.save();
     this._setLineStyles(type);
+    this._ctx.lineWidth = this._props.shapeStrokeWidthPx;
     this._ctx.beginPath();
     this._ctx.moveTo(startPx.e(1), startPx.e(2));
     this._ctx.lineTo(endPx.e(1), endPx.e(2));
