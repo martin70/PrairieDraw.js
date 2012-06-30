@@ -51,7 +51,7 @@ as the second argument.</p>
 
 <h2>Coordinate systems</h2>
 
-<p>There are two different coordinate systems in use by
+<p>There are three different coordinate systems in use by
 PrairieDraw:</p>
 <ol>
 <li>The <em>pixel coordinates</em> used by the canvas object, with
@@ -61,6 +61,8 @@ y-axis going down.</li>
 <li>The <em>drawing coordinates</em> used for PrairieDraw commands,
 with the origin in the center of the canvas, the x-axis going right,
 and the y-axis going up.</li>
+<li>The <em>normalized coordinates</em> for the viewport, ranging from
+0 (left/bottom) to 1 (right/top).</li>
 </ol>
 <p>To set the horizontal and vertical canvas dimensions in drawing
 coordinates, call <code>this.setUnits(xSize, ySize)</code>. The canvas

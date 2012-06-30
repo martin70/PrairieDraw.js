@@ -39,11 +39,12 @@ generally be called explicitly, however. Instead,
 
 <h2>Coordinate systems</h2>
 
-<p>There are two coordinate systems used: Dw is "drawing coordinates"
-and is used for positions and vectors, while Px is "pixel coordinates"
-and is used for line widths, arrow sizes, etc. The transformation from
-Dw to Px is stored in the <code>_trans</code> instance variable. This
-is an <a
+<p>There are three coordinate systems used: Dw is <em>drawing
+coordinates</em> and is used for positions and vectors, Px is
+<em>pixel coordinates</em> and is used for line widths, arrow sizes,
+etc, and Nm is <em>normalized coordinates</em> for referencing
+locations within the viewport. The transformation from Dw to Px is
+stored in the <code>_trans</code> instance variable. This is an <a
 href="https://en.wikipedia.org/wiki/Affine_transformation">affine
 transformation matrix</a> (using <a
 href="https://en.wikipedia.org/wiki/Homogeneous_coordinates">homogeneous
@@ -55,15 +56,18 @@ transformation stack by
 (for positions) and <code>vec2Px</code> (for vectors). The vector
 transformation only uses the linear part of the affine
 transformation. The inverse transforms are <code>pos2Dw</code> and
-<code>vec2Dw</code>.</p>
+<code>vec2Dw</code>. Similarly, <code>posNm2Dw</code> and
+<code>posNm2Px</code> convert normalized coordinate positions to the
+other coordinate systems.</p>
 
 <p>All PrairieDraw functions should leave the 2D Canvas coordinate
 system unmodified, so we should do a <code>_ctx.save()</code> and
 <code>_ctx.restore()</code> around any canvas coordinate
 transformations.</p>
 
-<p>In the code, variables are suffixed with either <code>Dw</code> or
-<code>Px</code> to indicate which coordinate system they are in.</p>
+<p>In the code, variables are suffixed with either <code>Dw</code>,
+<code>Px</code>, or <code>Nm</code> to indicate which coordinate
+system they are in.</p>
 
 <h2>Properties, colors, and options</h2>
 
