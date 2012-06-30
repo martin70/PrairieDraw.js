@@ -880,6 +880,41 @@ PrairieDraw.prototype.labelLine = function(startDw, endDw, pos, text) {
     this.text(pDw, a, text);
 }
 
+/** Draw text to label a circle line.
+
+    @param {Vector} posDw The center of the circle line.
+    @param {number} radDw The radius at the mid-angle.
+    @param {number} startAngleDw The starting angle (counterclockwise from x axis, in radians).
+    @param {number} endAngleDw The ending angle (counterclockwise from x axis, in radians).
+    @param {Vector} pos The position relative to the line (-1 to 1 local coordinates, x along the line, y orthogonal).
+    @param {string} text The text to draw.
+*/
+PrairieDraw.prototype.labelCircleLine = function(posDw, radDw, startAngleDw, endAngleDw, pos, text) {
+    // convert to Px coordinates
+    var startOffsetDw = this.vector2DAtAngle(startAngleDw).x(radDw);
+    var posPx = this.pos2Px(posDw);
+    var startOffsetPx = this.vec2Px(startOffsetDw);
+    var radiusPx = startOffsetPx.modulus();
+    var startAnglePx = this.angleOf(startOffsetPx);
+    var deltaAngleDw = endAngleDw - startAngleDw;
+    // assume a possibly reflected/rotated but equally scaled Dw/Px transformation
+    var deltaAnglePx = this._transIsReflection() ? (- deltaAngleDw) : deltaAngleDw;
+    var endAnglePx = startAnglePx + deltaAnglePx;
+
+    var textAnglePx = (1.0 - pos.e(1)) / 2.0 * startAnglePx + (1.0 + pos.e(1)) / 2.0 * endAnglePx;
+    var u1Px = this.vector2DAtAngle(textAnglePx);
+    var u2Px = u1Px.rotate(Math.PI / 2, $V([0, 0]));
+    var oPx = u1Px.x(pos.e(2)).add(u2Px.x(pos.e(1)));
+    var oDw = this.vec2Dw(oPx);
+    var aDw = oDw.x(-1).toUnitVector();
+    var a = aDw.x(1.0 / Math.abs(aDw.max())).x(Math.abs(pos.max()));
+
+    var rPx = this._circleArrowRadius(radiusPx, textAnglePx, startAnglePx, endAnglePx);
+    var pPx = u1Px.x(rPx).add(posPx);
+    var pDw = this.pos2Dw(pPx);
+    this.text(pDw, a, text);
+}
+
 /*****************************************************************************/
 
 PrairieDraw.prototype.numDiff = function(f, t) {
