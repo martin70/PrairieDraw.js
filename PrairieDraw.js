@@ -616,6 +616,80 @@ PrairieDraw.prototype._circleArrowRadius = function(midRadPx, anglePx, startAngl
 
 /*****************************************************************************/
 
+/** Draw a polyLine (closed or open).
+
+    @param {Array} pointsDw A list of drawing coordinates that form the polyLine.
+    @param {bool} closed Whether the shape should be closed and filled.
+*/
+PrairieDraw.prototype.polyLine = function(pointsDw, closed) {
+    if (pointsDw.length < 1) {
+        return;
+    }
+    this._ctx.save();
+    this._ctx.lineWidth = this._props.shapeStrokeWidthPx;
+    this._ctx.strokeStyle = this._props.shapeOutlineColor;
+    this._ctx.fillStyle = this._props.shapeInsideColor;
+
+    this._ctx.beginPath();
+    var pDw = pointsDw[0];
+    var pPx = this.pos2Px(pDw);
+    this._ctx.moveTo(pPx.e(1), pPx.e(2));
+    for (var i = 1; i < pointsDw.length; i++) {
+        pDw = pointsDw[i];
+        pPx = this.pos2Px(pDw);
+        this._ctx.lineTo(pPx.e(1), pPx.e(2));
+    }
+    if (closed) {
+        this._ctx.closePath();
+        this._ctx.fill();
+    }
+    this._ctx.stroke();
+    this._ctx.restore();
+}
+
+/** Covert an array of offsets to absolute points.
+
+    @param {Array} offsets A list of offset vectors.
+    @return {Array} The corresponding absolute points.
+*/
+PrairieDraw.prototype.offsets2Points = function(offsets) {
+    var points = [];
+    if (offsets.length < 1) {
+        return;
+    }
+    points[0] = offsets[0].dup();
+    for (var i = 1; i < offsets.length; i++) {
+        points[i] = points[i-1].add(offsets[i]);
+    }
+    return points;
+}
+
+/*****************************************************************************/
+
+/** Draw a circle.
+
+    @param {Vector} centerDw The center in drawing coords.
+    @param {number} radiusDw the radius in drawing coords.
+*/
+PrairieDraw.prototype.circle = function(centerDw, radiusDw) {
+    var centerPx = this.pos2Px(centerDw);
+    var offsetDw = $V([radiusDw, 0]);
+    var offsetPx = this.vec2Px(offsetDw);
+    var radiusPx = offsetPx.modulus();
+
+    this._ctx.save();
+    this._ctx.lineWidth = this._props.shapeStrokeWidthPx;
+    this._ctx.strokeStyle = this._props.shapeOutlineColor;
+    this._ctx.fillStyle = this._props.shapeInsideColor;
+    this._ctx.beginPath();
+    this._ctx.arc(centerPx.e(1),centerPx.e(2), radiusPx, 0, 2 * Math.PI);
+    this._ctx.fill();
+    this._ctx.stroke();
+    this._ctx.restore();
+}
+
+/*****************************************************************************/
+
 /** Draw a rod with hinge points at start and end and the given width.
 
     @param {Vector} startDw The first hinge point (center of circular end) in drawing coordinates.
