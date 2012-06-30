@@ -176,6 +176,25 @@ PrairieDraw.prototype._transIsReflection = function() {
     }
 }
 
+/** Transform a position from normalized viewport [0,1] to drawing coords.
+
+    @param {Vector} pNm Position in normalized viewport coordinates.
+    @return {Vector} Position in drawing coordinates.
+*/
+PrairieDraw.prototype.posNm2Dw = function(pNm) {
+    var pPx = this.posNm2Px(pNm);
+    return this.pos2Dw(pPx);
+}
+
+/** Transform a position from normalized viewport [0,1] to pixel coords.
+
+    @param {Vector} pNm Position in normalized viewport coords.
+    @return {Vector} Position in pixel coords.
+*/
+PrairieDraw.prototype.posNm2Px = function(pNm) {
+    return $V([pNm.e(1) * this._width, (1 - pNm.e(2)) * this._height]);
+}
+
 /*****************************************************************************/
 
 /** Set a property.
