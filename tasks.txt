@@ -1,0 +1,11 @@
+Tasks for the week of 6/25 - 6/29:
+1) Implement forces in:
+	Watt's Linkage
+	Four Bar Linkage
+	Pantograf Linkage
+2) Add linkages from previous week to website's Application page (get access to the site first)
+3) Implement more suggested linkage systems
+4) Find/Take pictures of real-world systems such as:
+	windshield wipers
+	bike suspensions
+	bike gear system
