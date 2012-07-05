@@ -134,8 +134,8 @@ animPD = new PrairieDrawAnim("fourbar", function(t) {
 function grashofsLaw(bar1, bar2, bar3, bar4){
 	var bars = [bar1, bar2, bar3, bar4];
 	bars.sort();
-	var leftSide = (parseFloat(bars[0]) + parseFloat(bars[1])).toFixed(4);
-	var rightSide = (parseFloat(bars[2]) + parseFloat(bars[3])).toFixed(4);
+	var leftSide = (parseFloat(bars[0]) + parseFloat(bars[3])).toFixed(4);
+	var rightSide = (parseFloat(bars[1]) + parseFloat(bars[2])).toFixed(4);
 	
 	return "Grashof's Law: " + leftSide + " < " + rightSide;
 }
@@ -145,7 +145,7 @@ function setOmega(value){
 }
 
 function setBar1(value){
-	if(time==0){
+	if(!animPD._running){
 		animPD.startAnim();
 		length_bar1 = document.getElementById('bar1slider').value;
 		animPD.stopAnim();
@@ -156,7 +156,7 @@ function setBar1(value){
 }
 
 function setBar2(value){
-	if(time==0){
+	if(!animPD._running){
 		animPD.startAnim();
 		length_bar2 = document.getElementById('bar2slider').value;
 		animPD.stopAnim();
@@ -167,7 +167,7 @@ function setBar2(value){
 }
 
 function setBar3(value){
-	if(time==0){
+	if(!animPD._running){
 		animPD.startAnim();
 		length_bar3 = document.getElementById('bar3slider').value;
 		animPD.stopAnim();
@@ -178,7 +178,7 @@ function setBar3(value){
 }
 
 function setBase(value){
-	if(time==0){
+	if(!animPD._running){
 		animPD.startAnim();
 		length_base = document.getElementById('baseslider').value;
 		animPD.stopAnim();
