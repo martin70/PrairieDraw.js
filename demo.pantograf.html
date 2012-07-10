@@ -20,21 +20,21 @@ circlesPD = new PrairieDrawAnim("pantograph-circles", function(t) {
 	this.setUnits(9, 6);
 	this.setProp("arrowLineWidthPx",2);
 	this.addOption("circles",false);
-	
+
 	var O = $V([0,0]);
 	var P = $V([2,0]);
 	var shape = $V([2*Math.sin(t), 2*Math.cos(t)]);
-	
+
 	if (this.getOption("circles")==true){
 		this.setProp("arrowLineWidthPx",1);
 		this.circle($V([2,0]), 2);
 		this.circle($V([1,0]), 1);
 	}
-	
+
 	//big bar left
 	this.rod(O, P, 0.25);
 	this.point(O);
-	
+
 	//big bar right
 	this.save();
 		this.translate(P);
@@ -42,20 +42,20 @@ circlesPD = new PrairieDrawAnim("pantograph-circles", function(t) {
 		this.point(O);
 		this.point(shape);
 	this.restore();
-	
+
 	//little bar left
 	this.save();
 	this.translate(P.x(1/2));
 	this.rod(O, shape.x(1/2), 0.15);
 	this.point(O);
-	
+
 	//little bar right
 	this.translate(shape.x(1/2));
 	this.rod(O, P.x(1/2), 0.15);
 	this.point(O);
 	this.point(P.x(1/2));
 	this.restore();
-	
+
 });
 </script>
 <p>
@@ -68,15 +68,15 @@ linePD = new PrairieDrawAnim("pantograph-lines", function(t) {
 	this.setUnits(9, 6);
 	this.setProp("arrowLineWidthPx",2);
 	this.addOption("line",false);
-	
+
 	var O = $V([0,0]);
 	var P = $V([2*Math.cos(t), 2*Math.sin(t)]);
 	var shape = $V([2*Math.sin(t), 2*Math.cos(t)]);
-	
+
 	//big bar left
 	this.rod(O, P, 0.25);
 	this.point(O);
-	
+
 	//big bar right
 	this.save();
 		this.translate(P);
@@ -84,20 +84,20 @@ linePD = new PrairieDrawAnim("pantograph-lines", function(t) {
 		this.point(O);
 		this.point(shape);
 	this.restore();
-	
+
 	//little bar left
 	this.save();
 	this.translate(P.x(1/2));
 	this.rod(O, shape.x(1/2), 0.15);
 	this.point(O);
-	
+
 	//little bar right
 	this.translate(shape.x(1/2));
 	this.rod(O, P.x(1/2), 0.15);
 	this.point(O);
 	this.point(P.x(1/2));
 	this.restore();
-	
+
 	if (this.getOption("line")==true){
 		this.setProp("arrowLineWidthPx",0.5);
 		this.line($V([-2.75,-2.75]), $V([2.75,2.75]));
