@@ -20,10 +20,9 @@ canvas {
 animPD = new PrairieDrawAnim("watts", function(t) {
 	//SET UP PRAIRIEDRAW
 	this.setUnits(6, 6);
-	this.setProp("arrowLineWidthPx",1); //center line
+	this.setProp("shapeStrokeWidthPx",1); //center line
 	this.line($V([0,-3]), $V([0,3]));
-	//this.addOption("velocity",false);
-	//this.addOption("acceleration",false);
+	this.setProp("shapeStrokeWidthPx",2);
 	
 	//DRAW SIDES
 	this.setProp("arrowLineWidthPx",2);
@@ -42,8 +41,6 @@ animPD = new PrairieDrawAnim("watts", function(t) {
 	this.point($V([0,0]));
 	var left_end = this.pos2Px($V([2.5,0]));
 	this.restore();
-	
-	//take a look at this pos2px, px2pos stuff
 	
 	//RIGHT BAR
 	this.save();
@@ -65,7 +62,6 @@ animPD = new PrairieDrawAnim("watts", function(t) {
 })
 </script>
 <p>
-<!-- Base: <input id="baseslider" type="range" min="0" max="4" value="40/18" step="0.2" onchange=setBase()><p> -->
 <button onclick="animPD.toggleAnim();">Toggle animation</button>
 </p>
 
