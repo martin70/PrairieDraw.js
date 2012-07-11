@@ -14,43 +14,69 @@ canvas {
 
 <body>
 
-<canvas id="PV.PB" width="400" height="400"></canvas>
+<canvas id="PV.PB" width="300" height="225"></canvas>
 <script type="application/javascript">
 var cycle = 0;
 mixPD = new PrairieDrawAnim("PV.PB", function(t) {
-	this.addOption("change", false);
+	this.addOption("ij", true);
+	this.addOption("ab", false);
 
-	this.setUnits(6, 6);
+	this.setUnits(3, 2.25);
 	this.setProp("arrowLineWidthPx",2);
-	
+	this.translate($V([-0.2, -0.25]));
+
 	var O = $V([0,0]);
-	var P = $V([1,2]);
-	
-	if(this.getOption("change")){
+	var P = $V([1,1]);
+	var diff = $V([-0.75, 0.25]);
+
+	if(this.getOption("ab")){
 		this.save();
-		this.translate($V([-1, -0.5]));
-		this.rotate(Math.PI/5);
-		this.line($V([-5,O.e(1)]), $V([5,O.e(2)]));
-		this.line($V([O.e(1),-5]), $V([O.e(2),5]));
-		this.text($V([4.7, -0.1]), O, "a");
-		this.text($V([-0.1, 3.1]), O, "b");
+			this.translate(diff);
+			this.rotate(Math.PI/-4);
+			
+			//this.setProp("arrowLineWidthPx",0.5);
+			//this.arrow($V([-5,O.e(1)]), $V([5,O.e(2)]));
+			//this.arrow($V([O.e(1),-5]), $V([O.e(2),5]));
+			
+			this.setProp("arrowLineWidthPx",1);
+			this.arrow(O, $V([0,1]));
+			this.arrow(O, $V([1,0]));
+			
+			this.text($V([1, -0.1]), O, "a");
+			this.text($V([-0.1, 1]), O, "b");
+			
+			this.setProp("arrowLineWidthPx",2);
+			this.point(O);
+			this.text($V([-.05,-.05]), O, "O'")
 		this.restore();
-		this.arrow(O.add($V([-1,-0.5])), P);
+		this.arrow(O.add(diff), P);
 	}
-	else{
-		this.line($V([-5,O.e(1)]), $V([5,O.e(2)]));
-		this.line($V([O.e(1),-5]), $V([O.e(2),5]));
-		this.text($V([2.9, -0.1]), O, "i");
-		this.text($V([-0.1, 2.9]), O, "j");
+	if(this.getOption("ij")){
+		//this.setProp("arrowLineWidthPx",0.5);
+		//this.arrow($V([-5,O.e(1)]), $V([5,O.e(2)]));
+		//this.arrow($V([O.e(1),-5]), $V([O.e(2),5]));
+		
+		this.setProp("arrowLineWidthPx",1);
+		this.arrow(O, $V([0,1]));
+		this.arrow(O, $V([1,0]));
+		
+		this.text($V([1, -0.1]), O, "i");
+		this.text($V([-0.1, 1]), O, "j");
+		
+		this.setProp("arrowLineWidthPx",2);
+		this.point(O);
+		this.text($V([-.05,-.05]), O, "O")
 		this.arrow(O,P);
 	}
-	
-	this.text($V([1.05,2.05]), $V([0,0]), "P");
+
+	this.point(P);
+	this.text(P.add($V([.05, .05])), O, "P");
 
 });
 </script>
 <p>
-<button onclick="mixPD.toggleOption('change');">Change Basis</button>
+<button onclick="mixPD.toggleOption('ij');">Toggle i,j Basis</button>
+<button onclick="mixPD.toggleOption('ab');">Toggle a,b Basis</button>
 <p>
 
 </body>
