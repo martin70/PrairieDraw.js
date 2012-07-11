@@ -1,3 +1,4 @@
+
 /*****************************************************************************/
 
 /** Creates a PrairieDraw object.
@@ -81,6 +82,8 @@ PrairieDraw.prototype._initProps = function() {
     this._props.shapeInsideColor = "rgb(255, 255, 255)";
 
     this._props.groundDepthPx = 10;
+    this._props.groundWidthPx = 10;
+    this._props.groundSpacingPx = 10;
     this._props.groundOutlineColor = "rgb(0, 0, 0)";
     this._props.groundInsideColor = "rgb(220, 220, 220)";
 
@@ -516,7 +519,7 @@ PrairieDraw.prototype._arrowhead = function(posDw, dirDw, lenPx) {
     this._ctx.restore();
 }
 
-/** Draw an arrow given start position and offset.
+/** Draw an arrow given start and end positions.
 
     @param {Vector} startDw Initial point of the arrow (drawing coords).
     @param {Vector} endDw Final point of the arrow (drawing coords).
@@ -553,6 +556,28 @@ PrairieDraw.prototype.arrow = function(startDw, endDw, type) {
         this._arrowhead(endDw, offsetDw, arrowheadLengthPx);
     }
     this.restore();
+}
+
+/** Draw an arrow given the start position and offset.
+
+    @param {Vector} startDw Initial point of the arrow (drawing coords).
+    @param {Vector} offsetDw Offset vector of the arrow (drawing coords).
+    @param {string} type Optional type of vector being drawn.
+*/
+PrairieDraw.prototype.arrowFrom = function(startDw, offsetDw, type) {
+    var endDw = startDw.add(offsetDw);
+    this.arrow(startDw, endDw, type);
+}
+
+/** Draw an arrow given the end position and offset.
+
+    @param {Vector} endDw Final point of the arrow (drawing coords).
+    @param {Vector} offsetDw Offset vector of the arrow (drawing coords).
+    @param {string} type Optional type of vector being drawn.
+*/
+PrairieDraw.prototype.arrowTo = function(endDw, offsetDw, type) {
+    var startDw = endDw.subtract(offsetDw);
+    this.arrow(startDw, endDw, type);
 }
 
 /*****************************************************************************/
@@ -721,6 +746,26 @@ PrairieDraw.prototype.circle = function(centerDw, radiusDw) {
     this._ctx.restore();
 }
 
+/** Draw a filled circle.
+
+    @param {Vector} centerDw The center in drawing coords.
+    @param {number} radiusDw the radius in drawing coords.
+*/
+PrairieDraw.prototype.filledCircle = function(centerDw, radiusDw) {
+    var centerPx = this.pos2Px(centerDw);
+    var offsetDw = $V([radiusDw, 0]);
+    var offsetPx = this.vec2Px(offsetDw);
+    var radiusPx = offsetPx.modulus();
+
+    this._ctx.save();
+    this._ctx.lineWidth = this._props.shapeStrokeWidthPx;
+    this._ctx.fillStyle = this._props.shapeOutlineColor;
+    this._ctx.beginPath();
+    this._ctx.arc(centerPx.e(1),centerPx.e(2), radiusPx, 0, 2 * Math.PI);
+    this._ctx.fill();
+    this._ctx.restore();
+}
+
 /*****************************************************************************/
 
 /** Draw a rod with hinge points at start and end and the given width.
@@ -840,6 +885,55 @@ PrairieDraw.prototype.ground = function(posDw, normDw, lengthDw) {
     this._ctx.lineWidth = this._props.shapeStrokeWidthPx;
     this._ctx.strokeStyle = this._props.groundOutlineColor;
     this._ctx.stroke();
+    this._ctx.restore();
+}
+
+/** Draw a ground element with hashed shading.
+
+    @param {Vector} posDw The position of the ground center (drawing coords).
+    @param {Vector} normDw The outward normal (drawing coords).
+    @param (number} lengthDw The total length of the ground segment (drawing coords).
+    @param {number} offsetDw (Optional) The offset of the shading (drawing coords).
+*/
+PrairieDraw.prototype.groundHashed = function(posDw, normDw, lengthDw, offsetDw) {
+    var tangentDw = normDw.rotate(Math.PI/2, $V([0,0])).toUnitVector().x(lengthDw);
+    var offsetVecDw = tangentDw.toUnitVector().x(offsetDw);
+    var posPx = this.pos2Px(posDw);
+    var normPx = this.vec2Px(normDw);
+    var tangentPx = this.vec2Px(tangentDw);
+    var lengthPx = tangentPx.modulus();
+    var offsetVecPx = this.vec2Px(offsetVecDw);
+    var offsetPx = offsetVecPx.modulus() * this.sign(offsetDw);
+
+    this._ctx.save();
+    this._ctx.translate(posPx.e(1), posPx.e(2));
+    this._ctx.rotate(this.angleOf(normPx) + Math.PI/2);
+    this._ctx.lineWidth = this._props.shapeStrokeWidthPx;
+    this._ctx.strokeStyle = this._props.groundOutlineColor;
+
+    this._ctx.beginPath();
+    this._ctx.moveTo(- lengthPx / 2, 0);
+    this._ctx.lineTo(lengthPx / 2, 0);
+    this._ctx.stroke();
+
+    var startX = offsetPx % this._props.groundSpacingPx;
+    var x = startX;
+    while (x < lengthPx / 2) {
+        this._ctx.beginPath();
+        this._ctx.moveTo(x, 0);
+        this._ctx.lineTo(x - this._props.groundWidthPx, this._props.groundDepthPx);
+        this._ctx.stroke();
+        x += this._props.groundSpacingPx;
+    }
+    x = startX - this._props.groundSpacingPx;
+    while (x > -lengthPx / 2) {
+        this._ctx.beginPath();
+        this._ctx.moveTo(x, 0);
+        this._ctx.lineTo(x - this._props.groundWidthPx, this._props.groundDepthPx);
+        this._ctx.stroke();
+        x -= this._props.groundSpacingPx;
+    }
+
     this._ctx.restore();
 }
 
@@ -1206,6 +1300,67 @@ PrairieDrawAnim.prototype.stepSequence = function(name) {
     }
     seq.startTransition = true;
     this.startAnim();
+}
+
+/*****************************************************************************/
+
+/** Car model data.
+*/
+PrairieDraw.prototype.car = {
+    outline: [$V([1.37, 0.27]), $V([3.49, 0.27]), $V([4.23, 0.35]),
+              $V([4.49, 0.35]), $V([4.60, 0.55]), $V([4.49, 0.60]),
+              $V([4.56, 0.83]), $V([4.49, 0.89]), $V([4.25, 0.93]),
+              $V([3.05, 0.98]), $V([2.55, 1.36]), $V([2.27, 1.39]),
+              $V([1.96, 1.38]), $V([1.56, 1.32]), $V([1.16, 1.20]),
+              $V([0.57, 0.98]), $V([0.35, 0.95]), $V([0.08, 0.93]),
+              $V([0.00, 0.61]), $V([0.22, 0.38]), $V([0.70, 0.35])],
+    sideLines: [$V([4.43, 0.75]), $V([3.03, 0.76]), $V([1.44, 0.75]),
+                $V([1.56, 0.47]), $V([3.32, 0.46])],
+    windowOutline: [$V([2.91, 0.95]), $V([2.48, 1.28]), $V([2.26, 1.30]),
+                    $V([1.97, 1.29]), $V([1.69, 1.24]), $V([1.66, 1.20]),
+                    $V([1.73, 0.96])],
+    rearLine: [$V([1.71, 0.94]), $V([1.57, 0.93]), $V([1.46, 0.98]),
+               $V([1.13, 0.98]), $V([0.54, 0.96])],
+    rearWheelC: $V([0.98, 0.31]),
+    frontWheelC: $V([3.80, 0.31]),
+    centerOfMass: $V([2.39, 0.60]),
+    rearContact: $V([0.98, 0.00]),
+    frontContact: $V([3.80, 0]),
+    wheelR: 0.31,
+    rimR: 0.20,
+    axleR: 0.07,
+    nSpokes: 7
+}
+
+/** Draw car body.
+*/
+PrairieDraw.prototype.carDrawBody = function() {
+    this.polyLine(this.car.outline, true);
+    this.polyLine(this.car.sideLines);
+    this.polyLine(this.car.windowOutline, true);
+    this.polyLine(this.car.rearLine);
+    this.setProp("pointRadiusPx", 4);
+    this.filledCircle(this.car.rearWheelC, this.car.axleR);
+    this.filledCircle(this.car.frontWheelC, this.car.axleR);
+}
+
+/** Draw car wheels.
+
+    @param {number} wheelAngle Wheel rotation angle (radians, positive is counter-clock-wise).
+*/
+PrairieDraw.prototype.carDrawWheels = function(wheelAngle) {
+    this.circle(this.car.rearWheelC, this.car.wheelR);
+    this.circle(this.car.rearWheelC, this.car.rimR);
+    this.circle(this.car.frontWheelC, this.car.wheelR);
+    this.circle(this.car.frontWheelC, this.car.rimR);
+    var theta;
+    for (var i = 0; i < this.car.nSpokes; i++) {
+        theta = wheelAngle + 2 * Math.PI * i / this.car.nSpokes;
+        this.line(this.car.rearWheelC, this.car.rearWheelC.add(this.vector2DAtAngle(theta).x(this.car.rimR)));
+        this.line(this.car.frontWheelC, this.car.frontWheelC.add(this.vector2DAtAngle(theta).x(this.car.rimR)));
+    }
+    this.filledCircle(this.car.rearWheelC, this.car.axleR);
+    this.filledCircle(this.car.frontWheelC, this.car.axleR);
 }
 
 /*****************************************************************************/
