@@ -14,11 +14,13 @@ canvas {
 </head>
 
 <body>
-<canvas id="V.PI" width="400" height="400"></canvas>
+<canvas id="V.PI" width="225" height="225"></canvas>
 <script type="application/javascript">
 positionPD = new PrairieDrawAnim("V.PI", function(t) {
 	this.addOption("move", false);
 
+	this._ctx.fillStyle="blue";
+	
 	this.setUnits(6, 6);
 	this.setProp("arrowLineWidthPx",2);
 	this.text($V([1,1]), $V([1, 1]), "TEX:$v$");
@@ -40,18 +42,18 @@ positionPD = new PrairieDrawAnim("V.PI", function(t) {
 		var Qmoved = $V([Q.e(1)+(wrandomx), Q.e(2)+(wrandomy)]);
 		var Wmoved = $V([W.e(1)+(wrandomx), W.e(2)+(wrandomy)]);
 		
-		this.arrow(Omoved, Pmoved);
-		this.arrow(Qmoved, Wmoved);
+		this.arrow(Omoved, Pmoved, "position");
+		this.arrow(Qmoved, Wmoved, "position");
 		
-		this.text($V([0.2, 0.6]).add(Omoved), $V([1,1]), "v");
-		this.text($V([0.2, -0.7]).add(Qmoved), $V([-1,-1]), "w");
+		this.text($V([0.3, 0.6]).add(Omoved), $V([1,1]), "v");
+		this.text($V([0.1, -0.8]).add(Qmoved), $V([-1,-1]), "w");
 		this.stopAnim();
 	}
 	else{
-		this.arrow(O, P);
-		this.arrow(Q, W);
-		this.text($V([0.2, 0.6]), $V([1,1]), "v");
-		this.text($V([-0.7, -0.7]), $V([-1,-1]), "w");
+		this.arrow(O, P, "position");
+		this.arrow(Q, W, "position");
+		this.text($V([0.3, 0.6]), $V([1,1]), "v");
+		this.text($V([-0.8, -0.8]), $V([-1,-1]), "w");
 	}
 });
 </script>
