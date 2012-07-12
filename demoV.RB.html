@@ -27,22 +27,26 @@ componentsPD = new PrairieDrawAnim("V.RB", function(t) {
 	var O = $V([0, 0]);
 	var P = $V([Math.sqrt(2), Math.sqrt(2)]);
 	
+	this._ctx.fillStyle="black";
+	this.setProp("arrowLineWidthPx",2);
+	this.arrow(O, P, "position");
+	this.text($V([P.e(1)+0.5, P.e(2)+0.5]), $V([1,1]), "w = u + v");
+	
+	//AXES
+	this.setProp("arrowLineWidthPx",2);
+	this.arrow(O, x_axis.x(.5));
+	this.text($V([x_axis.e(1)/2.55, x_axis.e(2)/2.55]), $V([-1,-1]), "i");
+	this.arrow(O, y_axis.x(.5));
+	this.text($V([y_axis.e(1)/2.55 - 0.2, y_axis.e(2)/2.55]), $V([0,-1]), "j");
+	
 	if(this.getOption("components")){
+		this.setProp("arrowLineWidthPx",1);
+		this._ctx.fillStyle="blue";
 		this.arrow(O, ellipse(t, "x"), "position");
 		this.text($V([ellipse(t, "x").e(1)/2, ellipse(t, "x").e(2)/2 - 0.2]), $V([1,0]), "u");
 		this.arrow(O, ellipse(t, "y"), "position");
 		this.text($V([ellipse(t, "y").e(1)/2 - 0.2, ellipse(t, "y").e(2)/2]), $V([0,1]), "v");
 	}
-	
-	this.arrow(O, P, "position");
-	this.text($V([P.e(1)+0.5, P.e(2)+0.5]), $V([1,1]), "w = u + v");
-	
-	//AXES
-	this.setProp("arrowLineWidthPx",1);
-	this.arrow(O, x_axis.x(.5));
-	this.text($V([x_axis.e(1)/2.55, x_axis.e(2)/2.55]), $V([-1,-1]), "i");
-	this.arrow(O, y_axis.x(.5));
-	this.text($V([y_axis.e(1)/2.55 - 0.2, y_axis.e(2)/2.55]), $V([0,-1]), "j");
 	
 });
 function ellipse(t, axis){

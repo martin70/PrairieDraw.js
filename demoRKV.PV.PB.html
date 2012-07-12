@@ -38,14 +38,12 @@ mixPD = new PrairieDrawAnim("PV.PB", function(t) {
 			//this.arrow($V([-5,O.e(1)]), $V([5,O.e(2)]));
 			//this.arrow($V([O.e(1),-5]), $V([O.e(2),5]));
 			
-			this.setProp("arrowLineWidthPx",1);
 			this.arrow(O, $V([0,1]));
 			this.arrow(O, $V([1,0]));
 			
-			this.text($V([1, -0.1]), O, "a");
-			this.text($V([-0.1, 1]), O, "b");
+			this.text($V([.8, -0.1]), O, "a");
+			this.text($V([-0.1, .8]), O, "b");
 			
-			this.setProp("arrowLineWidthPx",2);
 			this.point(O);
 			this.text($V([-.05,-.05]), O, "O'")
 		this.restore();
@@ -56,14 +54,12 @@ mixPD = new PrairieDrawAnim("PV.PB", function(t) {
 		//this.arrow($V([-5,O.e(1)]), $V([5,O.e(2)]));
 		//this.arrow($V([O.e(1),-5]), $V([O.e(2),5]));
 		
-		this.setProp("arrowLineWidthPx",1);
 		this.arrow(O, $V([0,1]));
 		this.arrow(O, $V([1,0]));
 		
 		this.text($V([1, -0.1]), O, "i");
 		this.text($V([-0.1, 1]), O, "j");
 		
-		this.setProp("arrowLineWidthPx",2);
 		this.point(O);
 		this.text($V([-.05,-.05]), O, "O")
 		this.arrow(O,P, "position");
