@@ -14,17 +14,17 @@ canvas {
 
 <body>
 
-<canvas id="V.CB" width="400" height="400"></canvas>
+<canvas id="V.CB" width="300" height="200"></canvas>
 <script type="application/javascript">
 componentsPD = new PrairieDraw("V.CB", function() {
 	this.addOption("components",false);
 	this.addOption("ij",true);
 	this.addOption("ab",false);
 	
-	this.setUnits(4, 4);
+	this.setUnits(3, 2.5);
 	this.setProp("arrowLineWidthPx",2);
 
-	this.translate($V([-.5,-.5]));
+	this.translate($V([-.5,-1]));
 
 	var O = $V([0,0]);
 	var P = $V([1,2]);
