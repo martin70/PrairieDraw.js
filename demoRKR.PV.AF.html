@@ -14,7 +14,7 @@ canvas {
 
 <body>
 
-<canvas id="PV.AF" width="400" height="400"></canvas>
+<canvas id="PV.AF" width="225" height="225"></canvas>
 <script type="application/javascript">
 var cycle = 0;
 angularPD = new PrairieDrawAnim("PV.AF", function(t) {
@@ -30,6 +30,8 @@ angularPD = new PrairieDrawAnim("PV.AF", function(t) {
 	this.setUnits(4, 4);
 	this.setProp("arrowLineWidthPx",2);
 	
+	this.save();
+	this.translate($V([0,0.3]));
 	var O = $V([0,0]);
 	
 	this.save();
@@ -45,52 +47,53 @@ angularPD = new PrairieDrawAnim("PV.AF", function(t) {
 	
 	this.circleArrow(O, 1.3, 0, 1, "position");
 	this._ctx.fillStyle="blue";
-	this.text($V([1.7,0.6]), $V([1,0]), "1 radian");
+	this.text($V([2,0.6]), $V([1,0]), "1 radian");
+	this.restore();
 	
 	if(this.getOption("rad")){
 		this._ctx.fillStyle="black";
 		base = "w =               /           = " + (r/t).toFixed(2) + " rad/s";
-		this.text($V([0,-1.35]), $V([0,0]), base);
+		this.text($V([0,-1.15]), $V([0,0]), base);
 		
 		this._ctx.fillStyle="blue";
 		rad = r.toFixed(2) + "rad";
-		this.text($V([-0.37,-1.35]), $V([0,0]), rad);
+		this.text($V([-0.65,-1.15]), $V([0,0]), rad);
 		
 		this._ctx.fillStyle="green";
 		sec = t.toFixed(2) + "s";
-		this.text($V([0.021,-1.35]), $V([0,0]), sec);
+		this.text($V([0.05,-1.15]), $V([0,0]), sec);
 	}
 	
 	if(this.getOption("hz")){
 		this._ctx.fillStyle="black";
 		base = "v =               /           = " + (cycle/t).toFixed(2) + " Hz";
-		this.text($V([0,-1.5]), $V([0,0]), base);
+		this.text($V([0,-1.45]), $V([0,0]), base);
 		
 		this._ctx.fillStyle="red";
 		cycles = cycle.toFixed(2) + "cyc";
-		this.text($V([-0.33,-1.5]), $V([0,0]), cycles);
+		this.text($V([-0.6,-1.45]), $V([0,0]), cycles);
 		
 		this._ctx.fillStyle="green";
 		sec = t.toFixed(2) + "s";
-		this.text($V([0.07,-1.5]), $V([0,0]), sec);
+		this.text($V([0.15,-1.45]), $V([0,0]), sec);
 	}
 	
 	if(this.getOption("period")){
 		this._ctx.fillStyle="black";
 		base = "T =           /               = " + ((Math.PI*2) / (r/t)).toFixed(2) + " s/cycle";
-		this.text($V([0,-1.65]), $V([0,0]), base);
+		this.text($V([0,-1.75]), $V([0,0]), base);
 		
 		this._ctx.fillStyle="green";
 		sec = t.toFixed(2) + "s";
-		this.text($V([-0.48,-1.65]), $V([0,0]), sec);
+		this.text($V([-0.83,-1.75]), $V([0,0]), sec);
 		
 		this._ctx.fillStyle="red";
 		cycles = cycle.toFixed(2) + "cyc";
-		this.text($V([-0.06,-1.65]), $V([0,0]), cycles);
+		this.text($V([-0.08,-1.75]), $V([0,0]), cycles);
 	}
 	
 	this._ctx.fillStyle="green";
-	this.text($V([1.3,1.5]), $V([0,0]), "time = "+t.toFixed(2) + "s");
+	this.text($V([1.3,1.6]), $V([0,0]), "time = "+t.toFixed(2) + "s");
 });
 </script>
 <p>

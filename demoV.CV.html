@@ -56,14 +56,14 @@ componentsPD = new PrairieDrawAnim("V.CV", function(t) {
 	if(this.getOption("components")){
 		this.setProp("arrowLineWidthPx", 1);
 		this.arrow(O, $V([P.e(1), 0]), "position");
-		this.text($V([P.e(1)/2, -0.22]), $V([-1,-1]), "u");
+		this.text($V([P.e(1)/2, -0.3]), $V([-1,-1]), "u");
 		this.arrow(O, $V([0, P.e(2)]), "position");
-		this.text($V([-0.22, P.e(2)/2]), $V([-1,1]), "v");
+		this.text($V([-0.3, P.e(2)/2]), $V([-1,1]), "v");
 	}
 	
 	this.setProp("arrowLineWidthPx", 2);
 	this.arrow(O, P, "position");
-	this.text($V([P.e(1)+0.22, P.e(2)+0.22]), $V([1,1]), "w = u + v");
+	this.text($V([P.e(1)+0.3, P.e(2)+0.3]), $V([1,1]), "w = u + v");
 	
 	this.setProp("arrowLineWidthPx", 1.5);
 	this._ctx.fillStyle="black";

@@ -14,7 +14,7 @@ canvas {
 
 <body>
 
-<canvas id="rotation" width="400" height="400"></canvas>
+<canvas id="rotation" width="225" height="225"></canvas>
 <script type="application/javascript">
 var tRotate = 0;
 animPD = new PrairieDrawAnim("rotation", function(t) {
@@ -22,10 +22,13 @@ animPD = new PrairieDrawAnim("rotation", function(t) {
 	this.addOption("animate",false);
 	this.addOption("change",false);
 	
-	this.setUnits(6, 6);
-	this.setProp("shapeStrokeWidthPx", 1);
-	this.line($V([-3,0]), $V([3,0]));
-	this.line($V([0,-3]), $V([0,3]));
+	this.setUnits(4.5, 4.5);
+	this.setProp("arrowLineWidthPx",1);
+	this.arrow($V([0,0]), $V([1.5,0]));
+	this.text($V([1.4,-0.12]), $V([0,0]), "i");
+	this.arrow($V([0,0]), $V([0,1.5]));
+	this.text($V([-0.12,1.4]), $V([0,0]), "j");
+	this.setProp("arrowLineWidthPx",2);
 	this.setProp("shapeStrokeWidthPx", 2);
 	
 	var O = $V([0, 0]);
@@ -53,7 +56,7 @@ animPD = new PrairieDrawAnim("rotation", function(t) {
 			}
 		}
 		
-	this.arrow(O, $V([2*Math.cos(2*tRotate+Math.PI/4), 2*Math.sin(2*tRotate+Math.PI/4)]));
+	this.arrow(O, $V([2*Math.cos(2*tRotate+Math.PI/4), 2*Math.sin(2*tRotate+Math.PI/4)]), "position");
 	
 	
 	
